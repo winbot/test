@@ -1,0 +1,7 @@
+first:
+    pattern:  /first/{name}
+    defaults: { _controller: FirstPageBundle:FirstPage:index } 
+
+first_page_homepage:
+    path:     /
+    defaults: { _controller: FirstPageBundle:Default:index }

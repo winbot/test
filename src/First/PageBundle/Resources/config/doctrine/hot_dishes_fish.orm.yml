@@ -1,0 +1,23 @@
+First\PageBundle\Entity\hot_dishes_fish:
+    type: entity
+    table: null
+    repositoryClass: First\PageBundle\Repository\hot_dishes_fishRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        portion:
+            type: simple_array
+        cost:
+            type: decimal
+            precision: 10
+            scale: '2'
+        composition:
+            type: text
+    lifecycleCallbacks: {  }

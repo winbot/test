@@ -1,0 +1,20 @@
+First\PageBundle\Entity\main_menu:
+    type: entity
+    table: null
+    repositoryClass: First\PageBundle\Repository\main_menuRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        namePage:
+            type: string
+            length: 255
+            column: name_page
+        nameTab:
+            type: string
+            length: 255
+            column: name_tab
+    lifecycleCallbacks: {  }

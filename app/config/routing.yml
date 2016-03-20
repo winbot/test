@@ -1,0 +1,11 @@
+first_page:
+    resource: "@FirstPageBundle/Resources/config/routing.yml"
+    prefix:   /
+
+acme_hello:
+    resource: "@AcmeHelloBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
