@@ -3,6 +3,7 @@
  namespace First\PageBundle\Controller;
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+ use First\PageBundle\MyFunction\Showdata;
  
 class SecondPageController extends Controller
 {
@@ -33,7 +34,10 @@ class SecondPageController extends Controller
 			{
 				throw $this->createNotFoundException('No product found for id ');
 			}
-			return $this->render('FirstPageBundle:FirstPage:base.html.php',array('name' => $name, 'result' => $result));
+			//$name = $this->showAction("1");
+			//$f = new Showdata();
+			$name = Showdata::showFunction("1");
+			return $this->render('FirstPageBundle:FirstPage:second.html.php',array('name' => $name, 'result' => $result));
 		}
 		else
 		{
@@ -41,8 +45,9 @@ class SecondPageController extends Controller
 		}				
     }
 	
-	public function showAction()
+	public function showAction($n)
 	{
-		
+		$str = $n;
+		return $str;
 	}
 }
