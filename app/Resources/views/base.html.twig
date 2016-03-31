@@ -1,13 +1,54 @@
+<!-- app/Resources/views/base.html.twig -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
+    <title>{% block title %}Restaurant "Developers Life"{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ asset('r3.ico') }}" />
+</head>
+<body>
+
+<section id="wrapper">
+    <header id="header">
+        <div class="top">
+            {% block navigation %}
+                <nav>
+                    <ul class="navigation">
+                        <li><a href="">Главная</a></li>
+                        <li><a href="">О нас</a></li>
+                        <li><a href="">Контакты</a></li>
+                    </ul>
+                </nav>
+            {% endblock %}
+        </div>
+
+        <hgroup>
+		    <h2>{% block blog_title %}<a href="">Ресторан<br>Developers Life</a>{% endblock %}</h2>
+        </hgroup>
+    </header>
+    
+    <section class="main-menu">
+        {% block main_menu %}{% endblock %}
+    </section>
+    <section class="detail-menu">
+        {% block detail_menu %}
+		{% endblock %}
+    </section>	
+	<aside class="sidebar">
+		{% block sidebar %}{% endblock %}
+	</aside>	
+
+    <div id="footer">
+        {% block footer %}
+			<!--Открываем в отдельном окне-->
+			Symfony2 test project - created by <a href="#nul" ONCLICK="window.open('https://github.com/winbot/test','','Toolbar=1,Location=0,Directories=0,Status=0,Menubar=0,Scrollbars=1,Resizable=1,Width=max,Height=max');">Vladyslav Bormotov</a>
+		{% endblock %}
+    </div>
+</section>
+
+{% block javascripts %}{% endblock %}
+</body>
 </html>

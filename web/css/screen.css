@@ -1,0 +1,39 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
+body { line-height: 1;font-family: Arial, Helvetica, sans-serif;font-size: 12px; width: 100%; height: 100%; color: #000; font-size: 14px; }
+body {background: white url('/images/Weave-stretch-background.jpg') no-repeat; background-size: 100%}
+.clear { clear: both; }
+
+#wrapper { margin: 10px auto; width: 1000px; }
+#wrapper a { text-decoration: none; color: #000; }
+#wrapper span.highlight { color: #F48A00; }
+
+#header { border-bottom: 1px solid #04b822; margin-bottom: 20px; }/*линия под названием*/
+#header .top { border-bottom: 1px solid #04b822; margin-bottom: 10px; }/*линия над названием*/
+#header ul.navigation { list-style: none; text-align: right; }/*расположение блока navigation (справа)*/
+#header .navigation li { display: inline }/*для блока navigation (все объекты расположены в одну строку (inline отменяет перенос строк))*/
+/*#header .navigation li a { display: inline-block; padding: 10px 15px; border-left: 1px solid #ccc; }*//*для блока navigation (поля, верт. линия)*/
+#header .navigation li a { display: inline-block; padding: 10px 15px;}/*для блока navigation*/
+/* #header h2 { font-family: 'Irish Grover', cursive; font-size: 60px; text-align: center; line-height: 60px; } */
+#header h2 { font-family: 'fantasy';font-weight: 500; font-style: italic; font-size: 60px; text-align: center; line-height: 60px; }/*шрифт для названия*/
+#header h2 a { color: #000; }/*цвет шрифта для названия*/
+/* #header h2 {background: white url('/images/web-page-backgrounds-1.jpg') no-repeat; background-size: 100%} *//*background под названием*/
+
+.main-menu { border-bottom: 1px solid #04b822; width: 960px; display: inline-block; float: left; padding: 20px; margin-bottom: 20px; }
+
+.main-menu a { color: #F48A00; }
+.main-menu h1,
+.main-menu h2
+{ line-height: 1.2em; font-size: 32px; margin-bottom: 10px; font-weight: normal; color: #F48A00; }
+.main-menu p { line-height: 1.5em; margin-bottom: 20px; }
+
+.detail-menu { width: 700px; display: inline-block; float: left; padding: 20px; margin-bottom: 20px; }
+.sidebar { width: 239px; padding: 10px; display: inline-block; background: #fc0; }
+
+.detail-menu a { color: #F48A00; }
+.detail-menu h1,
+.detail-menu h2
+{ line-height: 1.2em; font-size: 32px; margin-bottom: 10px; font-weight: normal; color: #F48A00; }
+.detail-menu p { line-height: 1.5em; margin-bottom: 20px; }
+
+#footer { border-top: 1px solid #04b822; clear: both; text-align: center; padding: 10px; color: #04b822; }

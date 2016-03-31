@@ -36,7 +36,7 @@ class SecondPageController extends Controller
 			}
 			//$name = $this->showAction("1");
 			//$f = new Showdata();
-			$name = Showdata::showFunction("1");
+			$name = Showdata::showFunction("new page");
 			return $this->render('FirstPageBundle:FirstPage:second.html.php',array('name' => $name, 'result' => $result));
 		}
 		else

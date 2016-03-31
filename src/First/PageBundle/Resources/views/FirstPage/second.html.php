@@ -1,7 +1,7 @@
 <?php
  $view->extend('::base.html.php')
-?>
-
+ ?>
+<link rel="SHORTCUT ICON" href="favicon.ico">
 Test Page number " 
 <?php echo $view->escape($name) ?>"
 for work with databse!
