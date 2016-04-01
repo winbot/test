@@ -2,8 +2,18 @@
 {% extends 'FirstPageBundle:FirstPage:layout.html.twig' %}
 
 {% block main_menu %}
-    Main menu
+	{{ ' • ' }}
+	{% if col == 1 %}
+		<a href="{{ result.NameTab() }}">{{ result.NamePage() }}</a>
+		{{ ' • ' }}
+	{% else %}
+	{% for key, value in result %}
+		<a href="{{ result[key].NameTab() }}">{{ result[key].NamePage() }}</a>
+		{{ ' • ' }}
+	{% endfor %}
+	{% endif %}
 {% endblock %} 
+
 {% block detail_menu %}
     Detail menu
 {% endblock %} 

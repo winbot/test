@@ -20,7 +20,13 @@ class SecondPageController extends Controller
 		}
 		elseif($name=="3")
 		{
-		    return $this->render('FirstPageBundle:FirstPage:index.html.twig', array('name' => $name));
+			$result = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
+			if (!$result)
+			{
+				throw $this->createNotFoundException('No menu found ');
+			}
+			$col=count($result);
+		    return $this->render('FirstPageBundle:FirstPage:index.html.twig', array('result' => $result, 'col' => $col));
 		}
 		elseif($name=="4")
 		{
@@ -32,7 +38,7 @@ class SecondPageController extends Controller
 			//$result = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
 			if (!$result)
 			{
-				throw $this->createNotFoundException('No product found for id ');
+				throw $this->createNotFoundException('Menu not found');
 			}
 			//$name = $this->showAction("1");
 			//$f = new Showdata();
