@@ -8,7 +8,7 @@ body {background: white url('/images/Weave-stretch-background.jpg') no-repeat; b
 #wrapper a { text-decoration: none; color: #000; }
 #wrapper span.highlight { color: #F48A00; }
 
-#header { border-bottom: 1px solid #04b822; margin-bottom: 20px; }/*линия под названием*/
+#header { border-bottom: 1px solid #04b822; margin-bottom: 10px; margin-top: 20px; }/*линия под названием*/
 #header .top { border-bottom: 1px solid #04b822; margin-bottom: 10px; }/*линия над названием*/
 #header ul.navigation { list-style: none; text-align: right; }/*расположение блока navigation (справа)*/
 #header .navigation li { display: inline }/*для блока navigation (все объекты расположены в одну строку (inline отменяет перенос строк))*/
@@ -19,8 +19,8 @@ body {background: white url('/images/Weave-stretch-background.jpg') no-repeat; b
 #header h2 a { color: #000; }/*цвет шрифта для названия*/
 /* #header h2 {background: white url('/images/web-page-backgrounds-1.jpg') no-repeat; background-size: 100%} *//*background под названием*/
 
-.main-menu { border-bottom: 1px solid #04b822; width: 960px; display: inline-block; float: left; padding: 20px; margin-bottom: 20px; }
-.main-menu a { color: #F48A00; }
+.main-menu { border-bottom: 1px solid #04b822; width: 960px; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; text-align: center; color: green; }
+.main-menu a { font-family: 'fantasy'; font-style: italic; color: green; font-size: 17px; margin-bottom: 10px; font-weight: 500; }
 .main-menu h1,
 .main-menu h2
 { line-height: 1.2em; font-size: 32px; margin-bottom: 10px; font-weight: normal; color: #F48A00; }

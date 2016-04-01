@@ -2,6 +2,7 @@
 {% extends 'FirstPageBundle:FirstPage:layout.html.twig' %}
 
 {% block main_menu %}
+<link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
 	{{ ' • ' }}
 	{% if col == 1 %}
 		<a href="{{ result.NameTab() }}">{{ result.NamePage() }}</a>
