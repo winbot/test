@@ -1,0 +1,26 @@
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/index.html.twig #}
+{% extends 'FirstPageBundle:FirstPage:layout.html.twig' %}
+
+{% block main_menu %}
+	{{ ' • ' }}
+	{% if col_menu == 1 %}
+		<a href="{{path('main_menu', { 'name_tab': a })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+		{{ ' • ' }}
+	{% else %}
+	{% for key, value in res_menu %}
+		<a href="{{path('main_menu', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+		{{ ' • ' }}
+	{% endfor %}
+	{% endif %}
+{% endblock %} 
+
+{% block detail_menu %}
+	{% if col_tabl == 1 %}
+		res_tabl.Name()
+	{% else %}
+	{% for key, value in res_tabl %}
+		{{ res_tabl[key].Name() }} <br><br>
+	{% endfor %}
+	{% endif %}
+{% endblock %} 
+

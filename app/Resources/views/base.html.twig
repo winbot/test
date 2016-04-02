@@ -17,7 +17,7 @@
             {% block navigation %}
                 <nav>
                     <ul class="navigation">
-                        <li><a href="">Главная</a></li>
+                        <li><a href="{{path('first', { 'name': 3 })}}">Главная</a></li>
                         <li><a href="">О нас</a></li>
                         <li><a href="">Контакты</a></li>
                     </ul>
@@ -26,8 +26,8 @@
         </div>
 
         <hgroup>
-		    <h2>{% block blog_title %}<a href="">Ресторан<br>Developers Life</a>{% endblock %}</h2>
-        </hgroup>
+		    <h2>{% block blog_title %}<a href="{{path('first', { 'name': 3 })}}">Ресторан<br>Developers Life</a>{% endblock %}</h2>
+		</hgroup>
     </header>
     
     <section class="main-menu">

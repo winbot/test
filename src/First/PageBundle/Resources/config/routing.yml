@@ -2,9 +2,9 @@ first:
     pattern:  /first/{name}
     defaults: { _controller: FirstPageBundle:FirstPage:index }
 
-second:
-    pattern:  /second/{name}
-    defaults: { _controller: FirstPageBundle:SecondPage:index }
+main_menu:
+    pattern:  /menu/{name_tab}
+    defaults: { _controller: FirstPageBundle:MainMenu:select }
 
 first_page_homepage:
     path:     /

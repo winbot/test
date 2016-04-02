@@ -2,20 +2,19 @@
 {% extends 'FirstPageBundle:FirstPage:layout.html.twig' %}
 
 {% block main_menu %}
-<link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
 	{{ ' • ' }}
 	{% if col == 1 %}
-		<a href="{{ result.NameTab() }}">{{ result.NamePage() }}</a>
+		<a href="{{path('main_menu', { 'name_tab': result[key].NameTab() })}}">{{ result[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
 		{{ ' • ' }}
 	{% else %}
 	{% for key, value in result %}
-		<a href="{{ result[key].NameTab() }}">{{ result[key].NamePage() }}</a>
+		<a href="{{path('main_menu', { 'name_tab': result[key].NameTab() })}}">{{ result[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
 		{{ ' • ' }}
 	{% endfor %}
 	{% endif %}
 {% endblock %} 
 
 {% block detail_menu %}
-    Detail menu
+	Detail menu
 {% endblock %} 
 
