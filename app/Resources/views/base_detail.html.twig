@@ -29,16 +29,20 @@
 		    <h2>{% block blog_title %}<a href="{{path('first', { 'name': 3 })}}">Ресторан<br>Developers Life</a>{% endblock %}</h2>
 		</hgroup>
     </header>
-    
-    <section class="main-menu">
+     <section class="main-menu">
         {% block main_menu %}{% endblock %}
     </section>
-    <section class="main-welcome">
-        {% block main_welcome %}{% endblock %}
+</section>
+<section> 
+    <section class="detail-name">
+        {% block detail_name %}{% endblock %}
+    </section>
+	<section class="detail-portion">
+        {% block detail_portion %}{% endblock %}
     </section>	
-	<aside class="sidebar">
-		{% block sidebar %}{% endblock %}
-	</aside>	
+	<section class="detail-cost">
+        {% block detail_cost %}{% endblock %}
+    </section>
 
     <div id="footer">
         {% block footer %}
@@ -47,6 +51,7 @@
 		{% endblock %}
     </div>
 </section>
+
 
 {% block javascripts %}{% endblock %}
 </body>

@@ -1,5 +1,5 @@
 {# src/First/PageBundle/Resources/Resources/views/FirstPage/index.html.twig #}
-{% extends 'FirstPageBundle:FirstPage:layout.html.twig' %}
+{% extends '::base_detail.html.twig' %}
 
 {% block main_menu %}
 	{{ ' • ' }}
@@ -14,16 +14,32 @@
 	{% endif %}
 {% endblock %} 
 
-{% block detail_menu %}
+{% block detail_name %}
+	<h1>Название</h1> </br>
 	{% if col_tabl == 1 %}
-		res_tabl.Name()
-	{% else %}
-	{% for key, value in res_tabl %}
-		<h2>{{ res_tabl[key].Name() }}</h2>{{ res_tabl[key].Cost() }}<br>
-		{#{ res_tabl[key].Portion() }#}{#массив#}
-		
-		<h3>{{ res_tabl[key].Composition() }}</h3><br>
-	{% endfor %}
+			res_tabl.Name()
+		{% else %}
+		{% for key, value in res_tabl %}
+			{{ res_tabl[key].Name() }}</br>
+			<h3>{{ res_tabl[key].Composition() }}</h3><br>
+		{% endfor %}
 	{% endif %}
-{% endblock %} 
+{% endblock %}
+
+{% block detail_portion %}
+	<h1>Кол-во, гр.</h1></br>
+	Portion
+{% endblock %}
+
+{% block detail_cost %}
+	<h1>Цена грн.</h1></br>
+	{% if col_tabl == 1 %}
+			res_tabl.Cost()
+		{% else %}
+		{% for key, value in res_tabl %}
+			{{ res_tabl[key].Cost() }}</br>
+			<h3>{{ res_tabl[key].Composition() }}</h3><br>
+		{% endfor %}
+	{% endif %}
+{% endblock %}
 
