@@ -32,19 +32,11 @@ body {background: url('/images/Weave-stretch-background.jpg') no-repeat; backgro
 .main-welcome p { line-height: 1.5em; margin-bottom: 20px; }
 .sidebar { width: 239px; padding: 10px; float: right; display: inline-block; }
 
-.detail-name { width: 30%; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; margin-left: 170px; text-align: left; }
-.detail-portion { width: 20%; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; text-align: center; }
-.detail-cost { width: 20%; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; text-align: center; }
-.detail-name,
-.detail-portion,
-.detail-cost { font-family: 'fantasy'; font-style: normal; color: #000; font-size: 20px; }
-.detail-name h1,
-.detail-portion h1,
-.detail-cost h1{ font-size: 20px; font-style: italic; text-align: center; }
-.detail-name h3,
-.detail-portion h3,
-.detail-cost h3{ font-size: 17px; font-style: italic; margin-bottom: 2px; font-weight: normal; color: green; width: 100%; }
-.detail-name p { line-height: 1.5em; margin-bottom: 20px; }
-
+.detail-menu { width: 700px; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; margin-left: 170px; text-align: left; }
+.detail-menu { font-family: 'fantasy'; font-style: normal; color: #000; font-size: 20px; }
+.detail-menu h1{ font-size: 20px; font-style: italic; text-align: center; }
+.detail-menu h2{ font-size: 20px; font-style: normal; text-align: center; }
+.detail-menu h3{ font-size: 17px; font-style: italic; margin-bottom: 2px; font-weight: normal; color: green; width: 100%; }
+.detail-menu p { line-height: 1.5em; margin-bottom: 20px; }
 
 #footer { border-top: 1px solid #04b822; clear: both; text-align: center; padding: 10px; color: #04b822; }

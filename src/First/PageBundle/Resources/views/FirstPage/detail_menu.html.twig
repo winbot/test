@@ -1,45 +1,38 @@
 {# src/First/PageBundle/Resources/Resources/views/FirstPage/index.html.twig #}
 {% extends '::base_detail.html.twig' %}
-
-{% block main_menu %}
+        
+{% block main_menu %}{#заполняем блок меню#}
 	{{ ' • ' }}
 	{% if col_menu == 1 %}
 		<a href="{{path('main_menu', { 'name_tab': a })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
 		{{ ' • ' }}
 	{% else %}
-	{% for key, value in res_menu %}
-		<a href="{{path('main_menu', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
-		{{ ' • ' }}
-	{% endfor %}
+		{% for key, value in res_menu %}
+			<a href="{{path('main_menu', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+			{{ ' • ' }}
+			{% endfor %}
 	{% endif %}
-{% endblock %} 
+{% endblock %}
 
-{% block detail_name %}
-	<h1>Название</h1> </br>
+{% block detail_menu %}
+<style>
+	table{
+		table-layout: fixed;
+		width: 100%; 
+	}
+	td, th {
+		padding: 5px; 
+	}
+</style>
+	<table>
+	<tr><th style="width: 400px;"><h1>Название</h1></th><th style="width: 300px;"><h1>Кол-во, гр.</h1></th><th style="width: 200px;"><h1>Цена, грн.</h1></th></tr>
 	{% if col_tabl == 1 %}
 			res_tabl.Name()
-		{% else %}
+	{% else %}
 		{% for key, value in res_tabl %}
-			{{ res_tabl[key].Name() }}</br>
-			<h3>{{ res_tabl[key].Composition() }}</h3><br>
+			<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td><td><h2>portion</h2></td><td><h2>{{ res_tabl[key].Cost() }}</h2></td></tr>
 		{% endfor %}
 	{% endif %}
-{% endblock %}
-
-{% block detail_portion %}
-	<h1>Кол-во, гр.</h1></br>
-	Portion
-{% endblock %}
-
-{% block detail_cost %}
-	<h1>Цена грн.</h1></br>
-	{% if col_tabl == 1 %}
-			res_tabl.Cost()
-		{% else %}
-		{% for key, value in res_tabl %}
-			{{ res_tabl[key].Cost() }}</br>
-			<h3>{{ res_tabl[key].Composition() }}</h3><br>
-		{% endfor %}
-	{% endif %}
+	</table>
 {% endblock %}
 
