@@ -37,6 +37,16 @@ body {background: url('/images/Weave-stretch-background.jpg') no-repeat; backgro
 .detail-menu h1{ font-size: 20px; font-style: italic; text-align: center; }
 .detail-menu h2{ font-size: 20px; font-style: normal; text-align: center; }
 .detail-menu h3{ font-size: 17px; font-style: italic; margin-bottom: 2px; font-weight: normal; color: green; width: 100%; }
+.detail-menu h4{ font-size: 18px; font-style: italic; text-align: center; margin-left: 300px;}
 .detail-menu p { line-height: 1.5em; margin-bottom: 20px; }
+.detail-menu table {table-layout: fixed; width: 100%; }
+.detail-menu table td,
+.detail-menu table th { padding: 5px; }
+.detail-menu table th:nth-child(1) { width: 400px; }
+.detail-menu table th:nth-child(2) { width: 300px; }
+.detail-menu table th:nth-child(3) { width: 300px; }
+.col1 { width: 400px; }
+.col2 { width: 300px; }
+.col3 { width: 300px; }
 
 #footer { border-top: 1px solid #04b822; clear: both; text-align: center; padding: 10px; color: #04b822; }

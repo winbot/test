@@ -14,18 +14,10 @@
 	{% endif %}
 {% endblock %}
 
-{% block detail_menu %}
-<style>
-	table{
-		table-layout: fixed;
-		width: 100%; 
-	}
-	td, th {
-		padding: 5px; 
-	}
-</style>
+{% block detail_menu %}{#заполняем блок меню по бдюдам#}
+	<h4>{{ menu_name.namePage() }}</h4></br></br>
 	<table>
-	<tr><th style="width: 400px;"><h1>Название</h1></th><th style="width: 300px;"><h1>Кол-во, гр.</h1></th><th style="width: 200px;"><h1>Цена, грн.</h1></th></tr>
+	<tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th><th><h1>Цена, грн.</h1></th></tr>
 	{% if col_tabl == 1 %}
 			res_tabl.Name()
 	{% else %}
