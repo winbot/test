@@ -20,7 +20,7 @@ class pizza
     private $name;
 
     /**
-     * @var array
+     * @var string
      */
     private $portion;
 

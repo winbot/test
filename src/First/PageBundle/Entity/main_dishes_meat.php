@@ -20,7 +20,7 @@ class main_dishes_meat
     private $name;
 
     /**
-     * @var array
+     * @var string
      */
     private $portion;
 

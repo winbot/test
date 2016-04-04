@@ -20,7 +20,7 @@ class hot_dishes_fish
     private $name;
 
     /**
-     * @var array
+     * @var string
      */
     private $portion;
 

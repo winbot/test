@@ -13,7 +13,8 @@ First\PageBundle\Entity\pasta:
             type: string
             length: 255
         portion:
-            type: simple_array
+            type: string
+            length: 255
         cost:
             type: decimal
             precision: 10

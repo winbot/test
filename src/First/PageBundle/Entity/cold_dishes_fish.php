@@ -20,7 +20,7 @@ class cold_dishes_fish
     private $name;
 
     /**
-     * @var array
+     * @var string
      */
     private $portion;
 
@@ -71,7 +71,7 @@ class cold_dishes_fish
     /**
      * Set portion
      *
-     * @param array $portion
+     * @param string $portion
      * @return hot_dishes_fish
      */
     public function setPortion($portion)
@@ -84,7 +84,7 @@ class cold_dishes_fish
     /**
      * Get portion
      *
-     * @return array 
+     * @return string
      */
     public function getPortion()
     {

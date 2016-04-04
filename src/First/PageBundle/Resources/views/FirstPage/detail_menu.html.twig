@@ -22,7 +22,7 @@
 			res_tabl.Name()
 	{% else %}
 		{% for key, value in res_tabl %}
-			<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td><td><h2>portion</h2></td><td><h2>{{ res_tabl[key].Cost() }}</h2></td></tr>
+			<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td><td><h2>{{ res_tabl[key].Portion() }}</h2></td><td><h2>{{ res_tabl[key].Cost() }}</h2></td></tr>
 		{% endfor %}
 	{% endif %}
 	</table>

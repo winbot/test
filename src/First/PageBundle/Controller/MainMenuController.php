@@ -3,7 +3,6 @@
  namespace First\PageBundle\Controller;
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
- use First\PageBundle\Entity\main_menu;
  
 class MainMenuController extends Controller
 {
@@ -13,11 +12,18 @@ class MainMenuController extends Controller
 		$name_tab == "hot_snacks" || $name_tab == "main_dishes_meat" || $name_tab == "pasta" || $name_tab == "pizza" || 
 		$name_tab == "salads" || $name_tab == "soup")
 		{
+			//Формируем массив с названиями меню
+			//************************************
 		    $res_menu = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
 			if (!$res_menu)
 			{
 				throw $this->createNotFoundException('Not found menu');
 			}
+			$col_menu = count($res_menu);
+			//************************************
+			
+			//Формируем массив с детальным описанием меню
+			//************************************
 			$repo = 'FirstPageBundle:';
 			$repo .= $name_tab;
 			$res_tabl = $this->getDoctrine()->getRepository($repo)->findAll();
@@ -25,17 +31,23 @@ class MainMenuController extends Controller
 			{
 				throw $this->createNotFoundException('Not found table Repository');
 			}
-			$col_menu = count($res_menu);
+			$col_tabl = count($res_tabl);
+			//************************************
 			
+			//Получаем мвссив элементов в котором содержится имя меню для вывода на страницу
+			//************************************
 			$menu_name = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findOneBy(array ('nameTab' => $name_tab));
 			if (!$menu_name)
 			{
-				throw $this->createNotFoundException('No name menu found fot '.$name_tab);
+				throw $this->createNotFoundException('No name menu found for '.$name_tab);
 			}
+			//************************************
 			
-			$col_tabl = count($res_tabl);
+			//Вызываем страницу
+			//****************
 			return $this->render('FirstPageBundle:FirstPage:detail_menu.html.twig', array('res_menu' => $res_menu, 'col_menu' => $col_menu,
 			'res_tabl' => $res_tabl, 'col_tabl' => $col_tabl, 'menu_name' => $menu_name));
+			//****************
 		}
 		elseif($name_tab=="2")
 		{
