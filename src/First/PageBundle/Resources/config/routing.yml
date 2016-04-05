@@ -6,6 +6,17 @@ main_menu:
     pattern:  /menu/{name_tab}
     defaults: { _controller: FirstPageBundle:MainMenu:select }
 
+login:
+    pattern:  /login
+    defaults: { _controller: FirstPageBundle:AdminPage:login }
+
+admin:
+    pattern:  /admin
+    defaults: { _controller: FirstPageBundle:AdminPage:success }
+
+login_check:
+    pattern:  /login_check
+
 first_page_homepage:
     path:     /
-    defaults: { _controller: FirstPageBundle:Default:index }
+    defaults: { _controller: FirstPageBundle:AdminPage:success }

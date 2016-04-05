@@ -34,7 +34,7 @@ class MainMenuController extends Controller
 			$col_tabl = count($res_tabl);
 			//************************************
 			
-			//Получаем мвссив элементов в котором содержится имя меню для вывода на страницу
+			//Получаем мвссив элементов в котором содержится имя текущего меню для вывода на страницу
 			//************************************
 			$menu_name = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findOneBy(array ('nameTab' => $name_tab));
 			if (!$menu_name)
@@ -48,10 +48,6 @@ class MainMenuController extends Controller
 			return $this->render('FirstPageBundle:FirstPage:detail_menu.html.twig', array('res_menu' => $res_menu, 'col_menu' => $col_menu,
 			'res_tabl' => $res_tabl, 'col_tabl' => $col_tabl, 'menu_name' => $menu_name));
 			//****************
-		}
-		elseif($name_tab=="2")
-		{
-		    return $this->render('FirstPageBundle:Default:index.html.twig', array('name' => $name_tab));
 		}
 		else
 		{
