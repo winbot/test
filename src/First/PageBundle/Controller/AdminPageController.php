@@ -4,12 +4,15 @@
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  use Symfony\Component\Security\Core\SecurityContext;
+ use First\PageBundle\MyFunction\FixtureLoader;
+
  
   
 class AdminPageController extends Controller
 {
     public function loginAction()
     {
+        /*FixtureLoader::load();*/
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
