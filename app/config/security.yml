@@ -23,7 +23,7 @@ security:
             anonymous: ~
             form_login:
                 login_path:  /login
-                check_path:  /login_check
+                check_path:  /login
 
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:

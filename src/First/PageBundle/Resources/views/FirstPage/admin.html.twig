@@ -9,20 +9,17 @@
 {% if error %}
     <div>{{ error.message }}</div></br>
 	<div> Неверные учетные данные</div></br>
-	{#<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>	 #}
 {% endif %}
 
-<form action="{{ path('login_check') }}" method="post">
-    <label for="username">Username:</label>
+<form action="{{ path('login') }}" method="post">
+    <label for="Имя">Username:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
 
-    <label for="password">Password:</label>
+    <label for="Пароль">Password:</label>
     <input type="password" id="password" name="_password" />
 
-    {#
-        Если вы хотите контролировать URL, на который перенаправить пользователя:
-        <input type="hidden" name="_target_path" value="/account" />
-    #}
+    {#переходим по маршруту администратора#}
+    <input type="hidden" name="_target_path" value="admin"/>
 
     <input type="submit" name="login" />
 </form>{% endblock %} 

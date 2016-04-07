@@ -4,37 +4,37 @@
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  use Symfony\Component\Security\Core\SecurityContext;
+ 
   
 class AdminPageController extends Controller
 {
     public function loginAction()
     {
-		//return new Response('<html><body>Admin page!</body></html>');
-	    $request = $this->getRequest();
-        $session = $request->getSession();
-		
-		//return new Response('<html><body>Admin page!</body></html>');
-        
-		// получить ошибки логина, если таковые имеются
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR))
-		{
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        }
-		else
-		{
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-        }
-		
-        return $this->render('FirstPageBundle:FirstPage:admin.html.twig', array(
-            // имя, введённое пользователем в последний раз
-            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-            'error' => $error, ));
-		    //return $this->render('FirstPageBundle:FirstPage:admin.html.twig');
-	}
-	
-	public function successAction()
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(
+            'FirstPageBundle:FirstPage:admin.html.twig',
+            array(
+                // last username entered by the user
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            )
+        );
+    }
+    public function adminAction()
     {
-		return new Response('<html><body>Admin page!</body></html>');
-	}
-	
+        return new Response('<html><body>Admin page!</body></html>');
+    }
+
+    public function userAction()
+    {
+        return new Response('<html><body>User page!</body></html>');
+    }
+
 }

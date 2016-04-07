@@ -7,11 +7,9 @@
  
 class FirstPageController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction()
     {
-		if($name=="start")
-		{
-			$result = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
+		$result = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
 			if (!$result)
 			{
 				throw $this->createNotFoundException('No menu found ');
@@ -19,10 +17,4 @@ class FirstPageController extends Controller
 			$col=count($result);
 		    return $this->render('FirstPageBundle:FirstPage:index.html.twig', array('result' => $result, 'col' => $col));
 		}
-				else
-		{
-			return new Response('<html><body>Page not found!</body></html>');
-		}	
-
-	}
 }
