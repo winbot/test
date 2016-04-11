@@ -18,8 +18,9 @@
                 <nav>
                     <ul class="navigation">
                         <li><a href="{{path('first')}}">Главная</a></li>
-                        <li><a href="{{path('login')}}">Регистрация</a></li>
-                        <li><a href="">Контакты</a></li>
+                        <li><a href="{{path('registration')}}">Регистрация</a></li>
+                        <li><a href="{{path('login')}}">Вход</a></li>
+                        <li><a href="{{ logout_path('secured_area') }}">Выход</a></li>
                     </ul>
                 </nav>
             {% endblock %}

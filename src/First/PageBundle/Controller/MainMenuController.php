@@ -3,7 +3,8 @@
  namespace First\PageBundle\Controller;
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
- 
+ use Doctrine\ORM\EntityRepository;
+
 class MainMenuController extends Controller
 {
     public function selectAction($name_tab)

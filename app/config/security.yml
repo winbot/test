@@ -12,8 +12,11 @@ security:
                         # manager_name: customer
 
     encoders:
-         First\PageBundle\Entity\User:
-                    algorithm: bcrypt
+          First\PageBundle\Entity\User:
+                            algorithm: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
 
          #Symfony\Component\Security\Core\User\User: plaintext
 
@@ -23,9 +26,11 @@ security:
             anonymous: ~
             http_basic: ~
             provider: our_db_provider
+            logout:     true
             form_login:
                   login_path:  /login
                   check_path:  /login_check
+                  default_target_path: /account
 
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -49,3 +54,4 @@ security:
     access_control:
             # require ROLE_ADMIN for /admin*
             - { path: ^/admin, roles: ROLE_ADMIN }
+            - { path: ^/user, roles: ROLE_USER }
