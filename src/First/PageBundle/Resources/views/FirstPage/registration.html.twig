@@ -2,35 +2,41 @@
 {% extends '::base.html.twig' %}
 
 {% block main_menu %}
+    <div class = "fp">
 	Для регистрации введите свои учётные данные!
+    </div>
 {% endblock %} 
 
 {% block main_welcome %}
-	{#Первая попытка регистрации или произошла ошибка#}
+	{#Первая попытка регистрации или если произошла ошибка#}
 	{% if (message == '' and error == 0) or (message != '' and error != 0) %}
 		{% if message %}
 			{{ message }}</br></br>
 		{% endif %}
-	{#Форма для регистрации нового пользлвателя#}
-	<form action="{{ path('writeregdata') }}" method="post" >
-		<label for="Имя">Имя:</label>
+
+        {#Форма для регистрации нового пользлвателя#}
+	<form action="{{ path('writeregdata') }}" method="post">
+		<label for="Имя">Имя</label></br>
 		<input type="text" id="username" name="username"/></br></br>
-		<label for="Пароль">Пароль:</label>
+		<label for="Пароль">Пароль</label></br>
 		<input type="password" id="password" name="password" /></br></br>
-		<label for="Email">Email:</label>
+		<label for="Email">Email</label></br>
 		<input type="text" id="email" name="email" /></br></br>
-		<input type="submit" name="login" />
-	</form>
-	{% endif %}
+		<input type="submit" name="login" value="Регистрация"/>
+    </form>
+
+    {% endif %}
 
 	{#Регистрация прошла успешно#}
 	{% if message != '' and error == 0 %}
-		<div>{{ message }}</div></br>
-		Ваше имя: {{ username }}</br>
-		Password: {{ password }}</br>
-		Email: {{ email }}</br>
+        <form action="{{ path('login') }}">
+            <div>{{ message }}</div></br>
+            Ваше имя: {{ username }}</br>
+            {#Password: {{ password }}</br>}#}
+            Email: {{ email }}</br></br>
+            <input type="submit" name = "login" value="Войти"/>
+        </form>
 	{% endif %}
-
 
 {% endblock %}
 

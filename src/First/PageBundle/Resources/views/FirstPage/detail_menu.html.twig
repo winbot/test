@@ -1,10 +1,10 @@
-{# src/First/PageBundle/Resources/Resources/views/FirstPage/index.html.twig #}
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/detail_menu.html.twig #}
 {% extends '::base_detail.html.twig' %}
         
 {% block main_menu %}{#заполняем блок меню#}
 	{{ ' • ' }}
 	{% if col_menu == 1 %}
-		<a href="{{path('main_menu', { 'name_tab': a })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+		<a href="{{path('main_menu', { 'name_tab': res_menu.NameTab() })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
 		{{ ' • ' }}
 	{% else %}
 		{% for key, value in res_menu %}

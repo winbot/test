@@ -6,12 +6,7 @@
 {% endblock %} 
 
 {% block main_welcome %}
-	{% if message %}
-		<div>{{ message }}</div></br>
-	{% endif %}
-	Username: {{ username }}</br>
-	Password: {{ password }}</br>
-	Email: {{ email }}</br>
+	{{ dump(res_menu) }}
 {% endblock %}
 
 

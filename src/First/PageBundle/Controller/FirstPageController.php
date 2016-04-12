@@ -1,9 +1,8 @@
 <?php
 
  namespace First\PageBundle\Controller;
- use Symfony\Component\HttpFoundation\Response;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
- use First\PageBundle\MyFunction\Showdata;
+
  
 class FirstPageController extends Controller
 {

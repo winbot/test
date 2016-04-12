@@ -1,39 +1,39 @@
 first:
-    pattern:  /first
+    path:  /first
     defaults: { _controller: FirstPageBundle:FirstPage:index }
 
 main_menu:
-    pattern:  /menu/{name_tab}
+    path:  /menu/{name_tab}
     defaults: { _controller: FirstPageBundle:MainMenu:select }
 
 login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: FirstPageBundle:SecurityPage:login }
 
 login_check:
-    pattern:  /login_check
+    path:  /login_check
 
 logout:
     path:  /logout
 
 admin:
-    pattern:  /admin
+    path:  /admin
     defaults: { _controller: FirstPageBundle:SecurityPage:admin }
 
 user:
-    pattern:  /user
+    path:  /user/{name_tab}
     defaults: { _controller: FirstPageBundle:SecurityPage:user }
 
 account:
-    pattern:  /account
+    path:  /account
     defaults: { _controller: FirstPageBundle:SecurityPage:account }
 
 registration:
-    pattern:  /registration
+    path:  /registration
     defaults: { _controller: FirstPageBundle:SecurityPage:registration }
 
 writeregdata:
-    pattern:  /writeregdata
+    path:  /writeregdata
     defaults: { _controller: FirstPageBundle:SecurityPage:writeregdata }
 
 default_page_homepage:

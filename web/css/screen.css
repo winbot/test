@@ -32,6 +32,7 @@ body {background: url('/images/Weave-stretch-background.jpg') no-repeat; backgro
 .main-welcome p { line-height: 1.5em; margin-bottom: 20px; }
 .sidebar { width: 239px; padding: 10px; float: right; display: inline-block; }
 
+
 .detail-menu { width: 700px; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; margin-left: 170px; text-align: left; }
 .detail-menu { font-family: 'fantasy'; font-style: normal; color: #000; font-size: 20px; }
 .detail-menu h1{ font-size: 20px; font-style: italic; text-align: center; }
