@@ -1,0 +1,18 @@
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/test.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block main_menu %}
+	Для вывода тестовых данных!
+{% endblock %} 
+
+{% block main_welcome %}
+	{% if message %}
+		<div>{{ message }}</div></br>
+	{% endif %}
+	Username: {{ username }}</br>
+	Password: {{ password }}</br>
+	Email: {{ email }}</br>
+{% endblock %}
+
+
+

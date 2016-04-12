@@ -1,0 +1,23 @@
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/account.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block main_menu %}
+    Для входа в систему введите своё имя и пароль!
+{% endblock %} 
+
+{% block main_welcome %}
+{% if error %}
+   	<div>Проверьте учётные данные</div></br>
+{% endif %}
+
+<form action="{{ path('login_check') }}" method="post" >
+    <label for="Имя">Имя:</label>
+    <input type="text" id="username" name="_username" value={{ last_username }}/>
+    <label for="Пароль">Пароль:</label>
+    <input type="password" id="password" name="_password" />
+    <input type="submit" name="login" />
+</form>
+{% endblock %}
+
+
+
