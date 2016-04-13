@@ -1,11 +1,11 @@
-<!-- app/Resources/views/base.html.twig -->
+<!-- app/Resources/views/base_detail.html.twig -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
     <title>{% block title %}Restaurant "Developers Life"{% endblock %}</title>
     {% block stylesheets %}
-        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('../css/screen.css?<?php echo time(); ?>') }}" type="text/css" rel="stylesheet" />
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('r3.ico') }}" />
 </head>
@@ -34,9 +34,12 @@
         {% block main_menu %}{% endblock %}
     </section>
 </section>
-<section> 
+<section>
     <section class="detail-menu">
         {% block detail_menu %}	{% endblock %}
+    </section>
+    <section class="zakaz">
+        {% block detail_zakaz %}	{% endblock %}
     </section>
 
     <div id="footer">
