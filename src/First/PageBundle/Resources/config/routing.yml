@@ -20,10 +20,6 @@ admin:
     path:  /admin
     defaults: { _controller: FirstPageBundle:SecurityPage:admin }
 
-user:
-    path:  /user/{name_tab}
-    defaults: { _controller: FirstPageBundle:SecurityPage:user }
-
 account:
     path:  /account
     defaults: { _controller: FirstPageBundle:SecurityPage:account }
@@ -35,6 +31,10 @@ registration:
 writeregdata:
     path:  /writeregdata
     defaults: { _controller: FirstPageBundle:SecurityPage:writeregdata }
+
+receiveorder:
+    path:  /receiveorder
+    defaults: { _controller: FirstPageBundle:ReceiveOrder:receive }
 
 default_page_homepage:
     path:     /
