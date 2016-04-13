@@ -1,6 +1,6 @@
 {# src/First/PageBundle/Resources/Resources/views/FirstPage/detail_menu.html.twig #}
 {% extends '::base_detail.html.twig' %}
-        
+
 {% block main_menu %}{#заполняем блок меню#}
 	{{ ' • ' }}
 	{% if col_menu == 1 %}
@@ -14,7 +14,8 @@
 	{% endif %}
 {% endblock %}
 
-{% block detail_menu %}{#заполняем блок меню по бдюдам#}
+{% block detail_menu %}{#заполняем блок дeтальной информацией из выбраного меню#}
+	{% if user_name == '' %}
 	<h4>{{ menu_name.namePage() }}</h4></br></br>
 	<table>
 	<tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th><th><h1>Цена, грн.</h1></th></tr>
@@ -26,5 +27,31 @@
 		{% endfor %}
 	{% endif %}
 	</table>
+	{% endif %}
 {% endblock %}
+
+{% block detail_zakaz %}
+	{% if user_name != '' %}
+		<h4>{{ menu_name.namePage() }}</h4></br></br>
+	<form action="{{ path('login_check') }}" method="post" >
+		<table>
+			<tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
+				<th><h1>Цена, грн.</h1></th><th><h1>Заказ</h1></th></tr>
+			{% if col_tabl == 1 %}
+				res_tabl.Name()
+			{% else %}
+				{% for key, value in res_tabl %}
+					<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td>
+						<td><h2>{{ res_tabl[key].Portion() }}</h2></td>
+						<td><h2>{{ res_tabl[key].Cost() }}</h2></td>
+						<td><h2><input type="checkbox" name="id" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+		<input type="submit" name="login" value = "В корзину"/>
+	</form>
+	{% endif %}
+{% endblock %}
+
+
 

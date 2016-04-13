@@ -2,9 +2,9 @@
 
  namespace First\PageBundle\Controller;
  use Symfony\Component\HttpFoundation\Response;
+ use Symfony\Component\HttpFoundation\Request;
  use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  use First\PageBundle\MyFunction\CreateAccount;
- use Symfony\Component\HttpFoundation\Request;
  use First\PageBundle\Entity\main_menu;
 
  
@@ -24,7 +24,6 @@ class SecurityPageController extends Controller
         return $this->render(
             'FirstPageBundle:FirstPage:account.html.twig',
             array(
-                // last username entered by the user
                 'last_username' => $lastUsername,
                 'error'         => $error,
             )
@@ -115,7 +114,7 @@ class SecurityPageController extends Controller
                 $name_tab = $res_menu->getNameTab();
             }
             //Переходим на страницу заказа (для обычных пользоваделей)
-            return $this->redirect($this->generateUrl('user', array('name_tab' => $name_tab)));
+            return $this->redirect($this->generateUrl('main_menu', array('name_tab' => $name_tab)));
         }
      }
     
