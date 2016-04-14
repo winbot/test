@@ -98,7 +98,8 @@ class SecurityPageController extends Controller
         $message = '';
         $error = 0;
         //Проверяем введеное посетителем имя для регистрации
-        if ($username == "admin" || $username == "ADMIN" || $username == "Admin") {
+        if ($username == "admin" || $username == "ADMIN" || $username == "Admin" ||
+            $username == "user" || $username == "USER" || $username == "User") {
             $message = "Вы ввели недопустимое имя!";
             $error = 2;
         } else {

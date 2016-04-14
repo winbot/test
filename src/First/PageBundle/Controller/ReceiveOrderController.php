@@ -23,28 +23,37 @@ class ReceiveOrderController extends Controller
 		//создаём временную таблицу с именем пользователя
 		$user = $this->getUser();
 		$user_name = '';
-		if($user)$user_name = $user->getUsername(); //Получаем имя текущего пользователя
-		$em = $this->getDoctrine()->getEntityManager();
-		$connection = $em->getConnection();
-		$statement = $connection->prepare('CREATE TABLE IF NOT EXISTS test (
+        $state = null;//результат операции создания таблицы
+		if($user) {
+            $user_name = $user->getUsername(); //Получаем имя текущего пользователя
+            $user_name = str_replace(" ","",$user_name);
+            $em = $this->getDoctrine()->getEntityManager();
+            $connection = $em->getConnection();
+            $query = 'CREATE TABLE IF NOT EXISTS ' . $user_name . ' (
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
   portion VARCHAR(255) COLLATE utf8_unicode_ci NOT NULL,
   cost DECIMAL(10,2) NOT NULL,
   composition LONGTEXT COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;');
-		//$statement->bindValue('id', 123);
-		//$statement = $connection->prepare('CREATE TABLE t (c CHAR(20) CHARACTER SET utf8 COLLATE utf8_bin);');
-		$statement->execute();
-		//$results = $statement->fetchAll();
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;';
+            $statement = $connection->prepare($query);
+            //$statement = $connection->prepare('CREATE TABLE t (c CHAR(20) CHARACTER SET utf8 COLLATE utf8_bin);');
+            $state = $statement->execute();
+        }
+ /*       $user_name = $user->getUsername(); //Получаем имя текущего пользователя
+        $em = $this->getDoctrine()->getEntityManager();
+        $connection = $em->getConnection();
+        $query = 'DROP TABLE '.$user_name;
+        $statement = $connection->prepare($query);
+        $state = $statement->execute();*/
 		return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
 			'nametab' => $nametab,
 			'id' => $id[1],
 			'col' => $col,
 			'request' => $request,
 			'arr' => $arr,
-			//'result' => $results,
+			'state' => $state,
 		));
 /*		$result = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
 			if (!$result)

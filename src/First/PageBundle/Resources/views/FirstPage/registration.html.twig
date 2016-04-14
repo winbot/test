@@ -17,12 +17,12 @@
         {#Форма для регистрации нового пользлвателя#}
 	<form action="{{ path('writeregdata') }}" method="post">
 		<label for="Имя">Имя</label></br>
-		<input type="text" id="username" name="username"/></br></br>
+		<input type="text" id="username" name="username" pattern = "^[A-Za-zА-Яа-яЁё0-9]+$" maxlength="15"/></br></br>{#pattern="\d+"#}
 		<label for="Пароль">Пароль</label></br>
 		<input type="password" id="password" name="password" /></br></br>
 		<label for="Email">Email</label></br>
 		<input type="text" id="email" name="email" /></br></br>
-		<input type="submit" name="login" value="Регистрация"/>
+		<input type="submit" name="login" value="Регистрация"/><input type="reset" value = "Очистить">
     </form>
 
     {% endif %}
