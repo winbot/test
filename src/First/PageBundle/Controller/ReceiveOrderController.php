@@ -41,12 +41,7 @@ class ReceiveOrderController extends Controller
             //$statement = $connection->prepare('CREATE TABLE t (c CHAR(20) CHARACTER SET utf8 COLLATE utf8_bin);');
             $state = $statement->execute();
         }
- /*       $user_name = $user->getUsername(); //Получаем имя текущего пользователя
-        $em = $this->getDoctrine()->getEntityManager();
-        $connection = $em->getConnection();
-        $query = 'DROP TABLE '.$user_name;
-        $statement = $connection->prepare($query);
-        $state = $statement->execute();*/
+
 		return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
 			'nametab' => $nametab,
 			'id' => $id[1],
@@ -65,5 +60,22 @@ class ReceiveOrderController extends Controller
 				'result' => $result,
 				'col' => $col,
 			));*/
+	}
+	//Подтверждаем заказ
+	public function confirmAction(Request $request)
+	{
+		$nametab = $request->request->get('nametab');
+		//создаём временную таблицу с именем пользователя
+		$user = $this->getUser();
+		$user_name = '';
+		$state = null;//результат операции создания таблицы
+		if($user) {
+			$user_name = $user->getUsername(); //Получаем имя текущего пользователя
+			$em = $this->getDoctrine()->getEntityManager();
+			$connection = $em->getConnection();
+			$query = 'DROP TABLE ' . $user_name;
+			$statement = $connection->prepare($query);
+			$state = $statement->execute();
+		}
 	}
 }

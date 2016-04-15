@@ -36,6 +36,10 @@ receiveorder:
     path:  /receiveorder
     defaults: { _controller: FirstPageBundle:ReceiveOrder:receive }
 
+confirmorder:
+    path:  /confirmorder
+    defaults: { _controller: FirstPageBundle:ReceiveOrder:confirm }
+
 default_page_homepage:
     path:     /
     defaults: { _controller: FirstPageBundle:FirstPage:index }
