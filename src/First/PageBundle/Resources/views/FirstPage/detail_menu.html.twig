@@ -30,7 +30,7 @@
 	{% endif %}
 {% endblock %}
 
-{% block detail_zakaz %}
+{% block detail_order %}
 
 	{% if user_name != '' %}
 		<h4>{{ menu_name.namePage() }}</h4></br></br>
@@ -47,6 +47,9 @@
 						<td><h2>{{ res_tabl[key].Cost() }}</h2></td>
 						<td><h2><input type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
 					<input type="hidden" name="col" value={{ key }}>{#количество записей в таблице#}
+					<input type="hidden" name="portion{{ key }}" value={{ res_tabl[key].Portion() }}>
+					<input type="hidden" name="cost{{ key }}" value={{ res_tabl[key].Cost() }}>
+					<input type="hidden" name="name{{ key }}" value="{{ res_tabl[key].Name() }}">
 				{% endfor %}
 			{% endif %}
 			<input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
