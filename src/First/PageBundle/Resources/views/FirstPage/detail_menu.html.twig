@@ -54,10 +54,14 @@
 			{% endif %}
 			<input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
 		</table>
-		</br><input type="submit" name="login" value = "В корзину"/>
+		</br><input type="submit" name="receive" value = "В корзину"/></br>
+	</form>
+	<form action="{{ path('previeworder') }}" method="post" >
+		</br><input type="submit" name="preview" value = "Просмотр заказа"/></br>
 	</form>
 	{% endif %}
 {% endblock %}
+
 
 
 

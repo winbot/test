@@ -32,7 +32,7 @@ class ReceiveOrderController extends Controller
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;';
 			$statement = $connection->prepare($query);
 			//$statement = $connection->prepare('CREATE TABLE t (c CHAR(20) CHARACTER SET utf8 COLLATE utf8_bin);');
-			$state1 = $statement->execute();
+			$statement->execute();
 			if ($state1) {
 				//Заносим в таблицу данные о выбраных позициях
 				//Формируем дату и время
@@ -61,7 +61,7 @@ class ReceiveOrderController extends Controller
 						$statement->bindValue(5, $cost);
 						$statement->bindValue(6, $name_tab);
 						$statement->bindValue(7, $user_name);
-						$state2 = $statement->execute();
+						$statement->execute();
 					}
 				}
 			}
@@ -71,6 +71,39 @@ class ReceiveOrderController extends Controller
 		return $this->redirect($this->generateUrl('main_menu', array('name_tab' => $name_tab)));
 	}
 
+	//Просмотр заказа
+	public function previeworderAction()
+	{
+		//Получаем имя текущего пользователя
+		$user = $this->getUser();
+		$user_name = $user->getUsername();
+		//Выбираем все записи из таблицы $user_name
+		$em = $this->getDoctrine()->getEntityManager();
+		$connection = $em->getConnection();
+		$query = 'SELECT * FROM ' . $user_name . ' WHERE 1 ;';
+		$statement = $connection->prepare($query);
+		$statement->execute();
+		$results = $statement->fetchAll();
+		$col = count($results);
+		$el0 = $results[0]['name_dishes'];
+
+/*		return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
+			'nametab' => $nametab,
+			'id' => $id[1],
+			'req' => $request,
+			'col' => $col,
+			'el0' => $el0,
+			'results' => $results,
+		));*/
+
+		//Формируем страницу
+		//****************
+		return $this->render('FirstPageBundle:FirstPage:previeworder.html.twig', array(
+			'col' => $col,
+			'results' => $results,
+		));
+		//****************
+	}
 
 	//Подтверждаем заказ
 	public function confirmAction(Request $request)
@@ -83,9 +116,6 @@ class ReceiveOrderController extends Controller
 		$user_name = '';
 		$state = null;//результат операции создания таблицы
 		if($user) {
-
-
-
 			$user_name = $user->getUsername(); //Получаем имя текущего пользователя
 			$em = $this->getDoctrine()->getEntityManager();
 			$connection = $em->getConnection();

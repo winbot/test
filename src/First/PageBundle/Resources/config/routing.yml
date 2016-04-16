@@ -32,6 +32,10 @@ writeregdata:
     path:  /writeregdata
     defaults: { _controller: FirstPageBundle:SecurityPage:writeregdata }
 
+previeworder:
+    path:  /previeworder
+    defaults: { _controller: FirstPageBundle:ReceiveOrder:previeworder }
+
 receiveorder:
     path:  /receiveorder
     defaults: { _controller: FirstPageBundle:ReceiveOrder:receive }
