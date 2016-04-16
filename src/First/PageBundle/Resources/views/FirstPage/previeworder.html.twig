@@ -6,10 +6,11 @@
 {% endblock %}
 
 {% block detail_menu %}{#заполняем блок дeтальной информацией из выбраного меню#}
-    
+
 {% endblock %}
 
 {% block detail_order %}
+    {% set cost = 0.0 %}
         <form action="{{ path('confirmorder') }}" method="post" >
             <table>
                 <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
@@ -25,10 +26,13 @@
                             <td><h2>{{ results[key]['cost'] }}</h2></td>
                             <td><h2><input type="checkbox" name="id{{ key }}" value={{ results[key]['id'] }}></h2></td></tr></tr>
                         <input type="hidden" name="col" value={{ key }}>{#количество записей в таблице#}
+                        <input type="hidden" name="confirm" value = {% set cost = cost + results[key]['cost'] %}/>
                     {% endfor %}
                 {% endif %}
             </table>
-            </br><input type="submit" name="confirm" value = "Подтвердить заказ"/>
+            {#Стоимость всего заказа#}
+            </br><h2>Всего: {{ cost }} грн. </h2>
+            </br><input type="submit" name="confirm" value = "Подтвердить заказ"/></br>
             </br><input type="submit" name="update" value = "Подтвердить изменения"/>
         </form>
 {% endblock %}
