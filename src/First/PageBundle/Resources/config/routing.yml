@@ -40,9 +40,9 @@ receiveorder:
     path:  /receiveorder
     defaults: { _controller: FirstPageBundle:ReceiveOrder:receive }
 
-confirmorder:
-    path:  /confirmorder
-    defaults: { _controller: FirstPageBundle:ReceiveOrder:confirm }
+update_confirm_order:
+    path:  /update_confirm_order
+    defaults: { _controller: FirstPageBundle:ReceiveOrder:update_confirm }
 
 default_page_homepage:
     path:     /

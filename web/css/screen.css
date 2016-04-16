@@ -23,6 +23,7 @@ body {background: url('../images/Weave-stretch-background.jpg') no-repeat; backg
 .main-menu a { font-family: 'fantasy'; font-style: italic; color: green; font-size: 19px; margin-bottom: 10px; font-weight: 500; }
 .main-menu h1,
 .main-menu h2 { line-height: 1.2em; font-size: 32px; margin-bottom: 10px; font-weight: normal; color: #F48A00; }
+.main-menu h3 { line-height: 1.2em; font-family: 'fantasy'; font-size: 18px; margin-bottom: 10px; font-weight: normal; color: #000; }
 .main-menu p { line-height: 1.5em; margin-bottom: 20px; }
 
 .main-welcome { width: 100%; display: inline-block; float: left; padding: 20px; margin-bottom: 20px; }
@@ -56,6 +57,7 @@ body {background: url('../images/Weave-stretch-background.jpg') no-repeat; backg
 .detail_order h2{ font-size: 20px; font-style: normal; text-align: center; }
 .detail_order h3{ font-size: 17px; font-style: italic; margin-bottom: 2px; font-weight: normal; color: green; width: 100%; }
 .detail_order h4{ font-size: 18px; font-style: italic; text-align: left; margin-left: 27%;}
+.detail_order h5{ font-size: 18px; font-style: italic; font-weight: bold; text-align: left; margin-left: 50%;}
 .detail_order p { line-height: 1.5em; margin-bottom: 20px; }
 .detail_order table {table-layout: fixed; width: 80%; }
 .detail_order table td,

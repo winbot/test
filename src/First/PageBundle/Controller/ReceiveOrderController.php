@@ -32,7 +32,7 @@ class ReceiveOrderController extends Controller
 			) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;';
 			$statement = $connection->prepare($query);
 			//$statement = $connection->prepare('CREATE TABLE t (c CHAR(20) CHARACTER SET utf8 COLLATE utf8_bin);');
-			$statement->execute();
+			$state1 = $statement->execute();
 			if ($state1) {
 				//Заносим в таблицу данные о выбраных позициях
 				//Формируем дату и время
@@ -45,7 +45,6 @@ class ReceiveOrderController extends Controller
 				//Количество блюд в текущем меню
 				$col = $request->request->get('col');
 				//В цикле записываем в таблицу все позиции выбранные в текущем меню
-				$element = null;
 				for ($i = 0; $i <= $col; $i++) {
 					$id_dishes = $request->request->get('id' . $i);
 					$name_dishes = $request->request->get('name' . $i);
@@ -61,7 +60,7 @@ class ReceiveOrderController extends Controller
 						$statement->bindValue(5, $cost);
 						$statement->bindValue(6, $name_tab);
 						$statement->bindValue(7, $user_name);
-						$statement->execute();
+						$state2 = $statement->execute();
 					}
 				}
 			}
@@ -85,16 +84,6 @@ class ReceiveOrderController extends Controller
 		$statement->execute();
 		$results = $statement->fetchAll();
 		$col = count($results);
-		$el0 = $results[0]['name_dishes'];
-
-/*		return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
-			'nametab' => $nametab,
-			'id' => $id[1],
-			'req' => $request,
-			'col' => $col,
-			'el0' => $el0,
-			'results' => $results,
-		));*/
 
 		//Формируем страницу
 		//****************
@@ -104,6 +93,65 @@ class ReceiveOrderController extends Controller
 		));
 		//****************
 	}
+
+	//Изменение или подтверждение заказа
+	public function update_confirmAction(Request $request)
+	{
+		//Получаем имя текущего пользователя
+		$user = $this->getUser();
+		//Прооверяем был выбран какое-либо блюдо из заказа для удаления
+		$col = $request->request->get('col');
+		$update = false;
+		for ($i = 0; $i <= $col; $i++) {
+			$id = $request->request->get('id' . $i);
+			if($id) {
+				$update = true;//Выполняе изменения в таблице заказа
+				break;
+			}
+		}
+		//Выполняем изменения в таблице заказа
+		if($user && $update) {
+			//Получаем имя текущего пользователя
+			$user_name = $user->getUsername();
+			//Удаляем записи из таблицы $user_name
+			$em = $this->getDoctrine()->getEntityManager();
+			$connection = $em->getConnection();
+			for ($i = 0; $i <= $col; $i++) {
+				$id = $request->request->get('id' . $i);
+				if ($id != null) {
+					$query = 'DELETE FROM ' .$user_name. ' WHERE id=' . $id . ';';
+					$statement = $connection->prepare($query);
+					$statement->execute();
+				}
+			}
+
+			//Перечитываем таблицу $user_name
+			$query = 'SELECT * FROM ' . $user_name . ' WHERE 1 ;';
+			$statement = $connection->prepare($query);
+			$statement->execute();
+			$results = $statement->fetchAll();
+			$col = count($results);
+
+			//Формируем страницу
+			//****************
+			return $this->render('FirstPageBundle:FirstPage:previeworder.html.twig', array(
+				'col' => $col,
+				'results' => $results,
+			));
+			//****************
+		}else{
+			//Отправляем заказ на выполнение
+
+
+			/*return $this->render('FirstPageBundle:FirstPage:previeworder.html.twig', array(
+				'col' => $col,
+				'results' => $results,
+			));*/
+			return new Response('<html><body>Необходимо выполнить вход в систему!</body></html>');
+		}
+
+	}
+
 
 	//Подтверждаем заказ
 	public function confirmAction(Request $request)
