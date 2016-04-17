@@ -20,7 +20,7 @@
 	<table>
 	<tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th><th><h1>Цена, грн.</h1></th></tr>
 	{% if col_tabl == 1 %}
-			res_tabl.Name()
+		<tr><td>{{ res_tabl.Name() }}</br><h3>{{ res_tabl.Composition() }}</h3></td><td><h2>{{ res_tabl.Portion() }}</h2></td><td><h2>{{ res_tabl.Cost() }}</h2></td></tr>
 	{% else %}
 		{% for key, value in res_tabl %}
 			<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td><td><h2>{{ res_tabl[key].Portion() }}</h2></td><td><h2>{{ res_tabl[key].Cost() }}</h2></td></tr>
@@ -39,7 +39,14 @@
 			<tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
 				<th><h1>Цена, грн.</h1></th><th><h1>Заказ</h1></th></tr>
 			{% if col_tabl == 1 %}
-				res_tabl.Name()
+				<tr><td>{{ res_tabl.Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td>
+					<td><h2>{{ res_tabl.Portion() }}</h2></td>
+					<td><h2>{{ res_tabl.Cost() }}</h2></td>
+					<td><h2><input type="checkbox" name="id{{ key }}" value={{ res_tabl.id() }}></h2></td></tr></tr>
+				<input type="hidden" name="col" value={{ key }}>{#количество записей в таблице#}
+				<input type="hidden" name="portion{{ key }}" value={{ res_tabl.Portion() }}>
+				<input type="hidden" name="cost{{ key }}" value={{ res_tabl.Cost() }}>
+				<input type="hidden" name="name{{ key }}" value="{{ res_tabl.Name() }}">
 			{% else %}
 				{% for key, value in res_tabl %}
 					<tr><td>{{ res_tabl[key].Name() }}</br><h3>{{ res_tabl[key].Composition() }}</h3></td>

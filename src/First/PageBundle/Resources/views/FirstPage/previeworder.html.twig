@@ -5,38 +5,41 @@
     <h3>Корзина заказа</h3>
 {% endblock %}
 
-{% block detail_menu %}{% endblock %}
+{% block detail_menu %}{{ message }}{% endblock %}
 
 {% block detail_order %}
-    {% set cost = 0.0 %}
-        <form action="{{ path('update_confirm_order') }}" method="post" >
-            <table>
-                <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
-                    <th><h1>Цена, грн.</h1></th><th><h1>Отменить</h1></th></tr>
-                {% if col == 1 %}
-                    <tr><td>{{ results[0]['name_dishes'] }}</br></td>
-                    <td><h2>{{ results[0]['portion'] }}</h2></td>
-                    <td><h2>{{ results[0]['cost'] }}</h2></td>
-                     <td><h2><input type="checkbox" name="id0" value={{ results[0]['id'] }}></h2></td></tr></tr>
-                    <input type="hidden" name="col" value="1">{#количество записей в таблице#}
-                    <input type="hidden" name="confirm" value = {% set cost = results[0]['cost'] %}/>
-                {% else %}
-                    {% for key, value in results %}
-                        <tr><td>{{ results[key]['name_dishes'] }}</br></td>
-                            <td><h2>{{ results[key]['portion'] }}</h2></td>
-                            <td><h2>{{ results[key]['cost'] }}</h2></td>
-                            <td><h2><input type="checkbox" name="id{{ key }}" value={{ results[key]['id'] }}></h2></td></tr></tr>
-                        <input type="hidden" name="col" value={{ key }}>{#количество записей в таблице#}
-                        <input type="hidden" name="confirm" value = {% set cost = cost + results[key]['cost'] %}/>
-                    {% endfor %}
-                {% endif %}
-            </table>
-            {#Стоимость всего заказа#}
-            </br><h5>Всего: {{ cost }} грн. </h5>
-            </br><input type="submit" name="confirm" value = "Подтвердить заказ"/></br>
-            </br><input type="submit" name="update" value = "Подтвердить изменения"/>
-         </form>
- {% endblock %}
+    {% if message != 'Ваш заказ принят и находится в обработке!' and
+    message != 'Вы не выбрали ни одного блюда!' %}
+        {% set cost = 0.0 %}
+            <form action="{{ path('update_confirm_order') }}" method="post" >
+                <table>
+                    <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
+                        <th><h1>Цена, грн.</h1></th><th><h1>Отменить</h1></th></tr>
+                    {% if col == 1 %}
+                        <tr><td>{{ results[0]['name_dishes'] }}</br></td>
+                        <td><h2>{{ results[0]['portion'] }}</h2></td>
+                        <td><h2>{{ results[0]['cost'] }}</h2></td>
+                         <td><h2><input type="checkbox" name="id0" value={{ results[0]['id'] }}></h2></td></tr></tr>
+                        <input type="hidden" name="col" value="1">{#количество записей в таблице#}
+                        <input type="hidden" name="confirm" value = {% set cost = results[0]['cost'] %}/>
+                    {% else %}
+                        {% for key, value in results %}
+                            <tr><td>{{ results[key]['name_dishes'] }}</br></td>
+                                <td><h2>{{ results[key]['portion'] }}</h2></td>
+                                <td><h2>{{ results[key]['cost'] }}</h2></td>
+                                <td><h2><input type="checkbox" name="id{{ key }}" value={{ results[key]['id'] }}></h2></td></tr></tr>
+                            <input type="hidden" name="col" value={{ key }}>{#количество записей в таблице#}
+                            <input type="hidden" name="confirm" value = {% set cost = cost + results[key]['cost'] %}/>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+                {#Стоимость всего заказа#}
+                </br><h5>Всего: {{ cost }} грн. </h5>
+                </br><input type="submit" name="confirm" value = "Подтвердить заказ"/></br>
+                </br><input type="submit" name="update" value = "Подтвердить изменения"/>
+             </form>
+    {% endif %}
+{% endblock %}
 
 
 
