@@ -33,7 +33,7 @@ class SecurityPageController extends Controller
     public function adminAction()
     {
         //формируем страницу для администратора
-        return new Response('<html><body>Admin page!</body></html>');
+        return $this->render('FirstPageBundle:FirstPage:admin.html.twig');
     }
 
     //Перенаправляем пользователя после регистрации 
@@ -44,7 +44,7 @@ class SecurityPageController extends Controller
         $user = $this->getUser();
         $user_name = $user->getUsername(); //Получаем имя текущего пользователя
         if($user_name == "admin"){
-            //Переходим на страницу администратора
+            //ереходим на страницу администратора
             return $this->redirect($this->generateUrl('admin'));
         }
         else{
@@ -65,7 +65,7 @@ class SecurityPageController extends Controller
             }else{
                 $name_tab = $res_menu->getNameTab();
             }
-            //Переходим на страницу заказа (для обычных пользоваделей)
+            //Переходим на страницу заказа (для посетителей сайта)
             return $this->redirect($this->generateUrl('main_menu', array('name_tab' => $name_tab)));
         }
      }

@@ -44,6 +44,10 @@ update_confirm_order:
     path:  /update_confirm_order
     defaults: { _controller: FirstPageBundle:ReceiveOrder:update_confirm }
 
+export:
+    path:  /export
+    defaults: { _controller: FirstPageBundle:Admin:export }
+
 default_page_homepage:
     path:     /
     defaults: { _controller: FirstPageBundle:FirstPage:index }

@@ -1,0 +1,8 @@
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/admin.html.twig #}
+{% extends '::base.html.twig' %}
+
+{% block main_welcome %}
+    <form action="{{ path('export') }}" method="post" >
+        </br><input type="submit" name="export" value = "Экспорт"/></br>
+    </form>
+{% endblock %}
