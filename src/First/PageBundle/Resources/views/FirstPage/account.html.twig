@@ -12,11 +12,17 @@
 
 <form action="{{ path('login_check') }}" method="post" >
     <label for="Имя">Имя:</label>
-    <input type="text" id="username" name="_username" value={{ last_username }}/>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" />
     <label for="Пароль">Пароль:</label>
     <input type="password" id="password" name="_password" />
-    <input type="submit" name="login" value = "Войти"/>
+    <input type="submit" name="login" value = "Войти" />
 </form>
+
+{% if adm %}
+    {#</br><label for="Переход">Перейти на страницу администрирования </label>#}
+    </br></br><a href="{{path('admin')}}"><h3>Перейти на страницу администратора</h3></a>
+{% endif %}
+
 {% endblock %}
 
 

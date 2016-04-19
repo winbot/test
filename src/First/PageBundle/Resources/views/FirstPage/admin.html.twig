@@ -1,8 +1,56 @@
 {# src/First/PageBundle/Resources/Resources/views/FirstPage/admin.html.twig #}
-{% extends '::base.html.twig' %}
+{% extends '::base_detail.html.twig' %}
 
-{% block main_welcome %}
-    <form action="{{ path('export') }}" method="post" >
+{% block navigation %}
+    <nav>
+        <ul class="navigation">
+            <li><a href="{{path('first')}}">Главная</a></li>
+            <li><a href="{{path('registration')}}">Заказы</a></li>
+            <li><a href="{{path('login')}}">Вход</a></li>
+            <li><a href="{{ logout_path('secured_area') }}">Выход</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block main_menu %}{#заполняем блок меню#}
+    {{ ' • ' }}
+    {% if col_menu == 1 %}
+        <a href="{{path('main_menu', { 'name_tab': res_menu.NameTab() })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+        {{ ' • ' }}
+    {% else %}
+        {% for key, value in res_menu %}
+            <a href="{{path('main_menu', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+            {{ ' • ' }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block detail_order %}
+
+    <h4>{{ menu_name.namePage() }}</h4></br></br>
+    <form action="{{ path('update_menu') }}" method="post" >
+        <table>
+            <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
+                <th><h1>Цена, грн.</h1></th><th><h1>Удалить</h1></th></tr>
+            {% for key, value in res_tabl %}
+                <tr><td><input height = "100" type="text" name="name{{ key }}" value="{{ res_tabl[key].Name() }}"></br>
+                        {#<h3><input style="height: 30px; cols: 40; rows: 3"  type="text" name="composition{{ key }}" value="{{ res_tabl[key].Composition() }}"></h3></td>#}
+                        <h3><textarea  name="composition{{ key }}">{{ res_tabl[key].Composition() }}</textarea></h3></td>
+                    <td><h2><input class = "col2" type="text" name="portion{{ key }}" value="{{ res_tabl[key].Portion() }}"></h2></td>
+                    <td><h2><input class = "col3" type="text" name="cost{{ key }}" value="{{ res_tabl[key].Cost() }}"></h2></td>
+                <td><h2><input type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
+                <input class = "col3" type="hidden" name="col" value={{ key }}>{#текущее количество записей в таблице#}
+            {% endfor %}
+            <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
+        </table>
+            </br><input type="submit" name="update_menu" value = "Применить"/></br>
+    </form>
+    <form action="{{ path('add_item_menu') }}" method="post" >
+        <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
+        </br><input type="submit" name="preview" value = "Добавить блюдо"/></br>
+    </form>
+    <form action="{{ path('add_item_menu') }}" method="post" >
+        <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
         </br><input type="submit" name="export" value = "Экспорт"/></br>
     </form>
-{% endblock %}
+ {% endblock %}

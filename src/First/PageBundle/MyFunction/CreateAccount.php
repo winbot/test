@@ -1,7 +1,6 @@
 <?php
 
 namespace First\PageBundle\MyFunction;
-use Symfony\Component\HttpFoundation\Response;
 use First\PageBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
@@ -48,7 +47,7 @@ class CreateAccount
 		$encoderFactory = $GLOBALS['kernel']->getContainer()->get('security.encoder_factory');
 		$encoder = $encoderFactory->getEncoder($user);
 
-		$salt = '0123456789012345678901'; // this should be different for every user
+		$salt = '0123456789012345678901'; // salt должно быть уникально для еаждого пользователя
 		$_password = $encoder->encodePassword($password, $salt);
 
 		$user->setSalt($salt);

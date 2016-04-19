@@ -125,7 +125,7 @@ class ReceiveOrderController extends Controller
 		for ($i = 0; $i <= $col; $i++) {
 			$id = $request->request->get('id' . $i);
 			if($id) {
-				$update = true;//Выполняе изменения в таблице заказа
+				$update = true;//Выполняем изменения в таблице заказа
 				break;
 			}
 		}
@@ -224,25 +224,5 @@ class ReceiveOrderController extends Controller
 //			return new Response('<html><body>Заказ принят!</body></html>');
 		}
 
-	}
-
-	//Подтверждаем заказ
-	public function confirmAction(Request $request)
-	{
-		//Получаем из запроса данные для обработки
-		$nametab = $request->request->get('nametab');
-
-		//Переносим данные о заказе из временной в общую таблицу заказов
-		$user = $this->getUser();
-		$user_name = '';
-		$state = null;//результат операции создания таблицы
-		if($user) {
-			$user_name = $user->getUsername(); //Получаем имя текущего пользователя
-			$em = $this->getDoctrine()->getEntityManager();
-			$connection = $em->getConnection();
-			$query = 'DROP TABLE IF EXISTS ' . $user_name;
-			$statement = $connection->prepare($query);
-			$state = $statement->execute();//Удаляем временную таблицу
-		}
 	}
 }

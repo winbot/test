@@ -11,7 +11,7 @@
   
 class SecurityPageController extends Controller
 {
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         $authenticationUtils = $this->get('security.authentication_utils');
 
@@ -20,12 +20,19 @@ class SecurityPageController extends Controller
 
         // Последнее введенное имя
         $lastUsername = $authenticationUtils->getLastUsername();
+        
+        //Проверяем имя пользователя (если уже зарегистрирован)
+        //если администратор предоставляем возможность перехода на
+        //страницу администрирования 
+        $adm = false; //флаг 
+        if($this->getUser()->getUsername() == "admin")$adm = true;
 
         return $this->render(
             'FirstPageBundle:FirstPage:account.html.twig',
             array(
                 'last_username' => $lastUsername,
                 'error'         => $error,
+                'adm'           => $adm,
             )
         );
     }
@@ -33,7 +40,51 @@ class SecurityPageController extends Controller
     public function adminAction()
     {
         //формируем страницу для администратора
-        return $this->render('FirstPageBundle:FirstPage:admin.html.twig');
+        //Получаем список меню
+        //Формируем массив с названиями меню
+        //************************************
+        $res_menu = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
+        if (!$res_menu)
+        {
+            throw $this->createNotFoundException('Not found menu');
+        }
+        //************************************
+        //получаем количество экземпляров меню
+        $col_menu = count($res_menu);
+
+        //Получаем первое меню из списка для первичной инициализации страницы
+        $name_tab = $res_menu[0]->getNameTab();
+
+        //Формируем массив с детальным описанием меню
+        //************************************
+        $repo = 'FirstPageBundle:';
+        $repo .= $name_tab;
+        $res_tabl = $this->getDoctrine()->getRepository($repo)->findAll();
+        if (!$res_tabl)
+        {
+            throw $this->createNotFoundException('Not found table Repository');
+        }
+        $col_tabl = count($res_tabl);
+        //************************************
+
+        //Получаем мвссив элементов в котором содержится имя текущего меню для вывода на страницу
+        //************************************
+        $menu_name = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findOneBy(array ('nameTab' => $name_tab));
+        if (!$menu_name)
+        {
+            throw $this->createNotFoundException('No name menu found for '.$name_tab);
+        }
+        //************************************
+
+        //Переходим на страницу администратора
+        return $this->render('FirstPageBundle:FirstPage:admin.html.twig', array(
+
+                'res_menu' => $res_menu,
+                'col_menu' => $col_menu,
+                'res_tabl' => $res_tabl,
+                'col_tabl' => $col_tabl,
+                'menu_name' => $menu_name,
+            ));
     }
 
     //Перенаправляем пользователя после регистрации 

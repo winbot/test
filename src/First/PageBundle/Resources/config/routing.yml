@@ -48,6 +48,14 @@ export:
     path:  /export
     defaults: { _controller: FirstPageBundle:Admin:export }
 
+update_menu:
+    path:  /update_menu
+    defaults: { _controller: FirstPageBundle:Admin:update_menu }
+
+add_item_menu:
+    path:  /add_item_menu
+    defaults: { _controller: FirstPageBundle:Admin:add_item_menu }
+
 default_page_homepage:
     path:     /
     defaults: { _controller: FirstPageBundle:FirstPage:index }
