@@ -17,7 +17,7 @@ logout:
     path:  /logout
 
 admin:
-    path:  /admin
+    path:  /admin/{name_tab}
     defaults: { _controller: FirstPageBundle:SecurityPage:admin }
 
 account:

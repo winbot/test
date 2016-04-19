@@ -37,7 +37,7 @@ class SecurityPageController extends Controller
         );
     }
 
-    public function adminAction()
+    public function adminAction($name_tab)
     {
         //формируем страницу для администратора
         //Получаем список меню
@@ -53,7 +53,7 @@ class SecurityPageController extends Controller
         $col_menu = count($res_menu);
 
         //Получаем первое меню из списка для первичной инициализации страницы
-        $name_tab = $res_menu[0]->getNameTab();
+        if($name_tab == '' || $name_tab == '1')$name_tab = $res_menu[0]->getNameTab();
 
         //Формируем массив с детальным описанием меню
         //************************************
@@ -96,7 +96,20 @@ class SecurityPageController extends Controller
         $user_name = $user->getUsername(); //Получаем имя текущего пользователя
         if($user_name == "admin"){
             //ереходим на страницу администратора
-            return $this->redirect($this->generateUrl('admin'));
+            //Формируем массив с названиями меню
+            //************************************
+            $res_menu = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findAll();
+            if (!$res_menu)
+            {
+                throw $this->createNotFoundException('Not found menu');
+            }
+            //************************************
+            //получаем количество экземпляров меню
+            $col_menu = count($res_menu);
+
+            //Получаем первое меню из списка для первичной инициализации страницы
+            $name_tab = $res_menu[0]->getNameTab();
+            return $this->redirect($this->generateUrl('admin', array('name_tab' => $name_tab)));
         }
         else{
             //Получаем список меню

@@ -15,11 +15,11 @@
 {% block main_menu %}{#заполняем блок меню#}
     {{ ' • ' }}
     {% if col_menu == 1 %}
-        <a href="{{path('main_menu', { 'name_tab': res_menu.NameTab() })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+        <a href="{{path('admin', { 'name_tab': res_menu.NameTab() })}}">{{ res_menu.NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
         {{ ' • ' }}
     {% else %}
         {% for key, value in res_menu %}
-            <a href="{{path('main_menu', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
+            <a href="{{path('admin', { 'name_tab': res_menu[key].NameTab() })}}">{{ res_menu[key].NamePage() }}</a>{#main_menu название маршрута из routing.yml#}
             {{ ' • ' }}
         {% endfor %}
     {% endif %}
