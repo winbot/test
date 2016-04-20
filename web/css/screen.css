@@ -46,10 +46,6 @@ body {background: url('../images/Weave-stretch-background.jpg') no-repeat; backg
 .detail-menu table th:nth-child(1) { width: 40%; }
 .detail-menu table th:nth-child(2) { width: 30%; }
 .detail-menu table th:nth-child(3) { width: 30%; }
-.col1 { width: 400px; }
-.col2 { width: 100px; }
-.col3 { width: 100px; }
-
 
 .detail_order { width: 100%; display: inline-block; float: left; padding: 10px; margin-bottom: 10px; margin-left: 12%; text-align: left; }
 .detail_order { font-family: 'fantasy'; font-style: normal; color: #000; font-size: 20px; }
@@ -70,10 +66,5 @@ body {background: url('../images/Weave-stretch-background.jpg') no-repeat; backg
 .detail_order table tr td textarea{width: 100%;  height: 30%; rows: 2; background-color: #c1e3ac;}
 .detail_order .col2,
 .detail_order .col3 {width: 25%;  background-color: #c1e3ac; text-align: center}
-.col1 { width: 400px; }
-.col2 { width: 100px; }
-.col3 { width: 100px; }
-.col4 { width: 100px; }
-
 
 #footer { border-top: 1px solid #04b822; clear: both; text-align: center; padding: 10px; color: #04b822; width: 80%; margin-left: 10%;}

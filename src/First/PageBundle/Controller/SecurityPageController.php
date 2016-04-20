@@ -23,9 +23,16 @@ class SecurityPageController extends Controller
         
         //Проверяем имя пользователя (если уже зарегистрирован)
         //если администратор предоставляем возможность перехода на
-        //страницу администрирования 
-        $adm = false; //флаг 
-        if($this->getUser()->getUsername() == "admin")$adm = true;
+        //страницу администрирования
+        $adm = false; //Вход для обычного пользователя
+        $user = $this->getUser();
+        if($user) {
+            $user_name = $user->getUsername(); //Получаем имя текущего пользователя
+            //Если пользователь уже зарегистрирован и его имя admin
+            // выставляем флаг и показываем на странице сслку перехода на
+            // страницу администратора
+            if ($user_name == "admin") $adm = true;
+        }
 
         return $this->render(
             'FirstPageBundle:FirstPage:account.html.twig',

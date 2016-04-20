@@ -38,7 +38,7 @@
                         <h3><textarea  name="composition{{ key }}">{{ res_tabl[key].Composition() }}</textarea></h3></td>
                     <td><h2><input class = "col2" type="text" name="portion{{ key }}" value="{{ res_tabl[key].Portion() }}"></h2></td>
                     <td><h2><input class = "col3" type="text" name="cost{{ key }}" value="{{ res_tabl[key].Cost() }}"></h2></td>
-                <td><h2><input type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
+                <td><h2><input color="#c1e3ac" type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
                 <input class = "col3" type="hidden" name="col" value={{ key }}>{#текущее количество записей в таблице#}
             {% endfor %}
             <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>

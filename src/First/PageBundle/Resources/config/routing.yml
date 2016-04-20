@@ -34,15 +34,15 @@ writeregdata:
 
 previeworder:
     path:  /previeworder
-    defaults: { _controller: FirstPageBundle:ReceiveOrder:previeworder }
+    defaults: { _controller: FirstPageBundle:Order:previeworder }
 
 receiveorder:
     path:  /receiveorder
-    defaults: { _controller: FirstPageBundle:ReceiveOrder:receive }
+    defaults: { _controller: FirstPageBundle:Order:receive }
 
 update_confirm_order:
     path:  /update_confirm_order
-    defaults: { _controller: FirstPageBundle:ReceiveOrder:update_confirm }
+    defaults: { _controller: FirstPageBundle:Order:update_confirm }
 
 export:
     path:  /export

@@ -5,7 +5,7 @@
  use Symfony\Component\HttpFoundation\Response;
  use Symfony\Component\HttpFoundation\Request;
   
-class ReceiveOrderController extends Controller
+class OrderController extends Controller
 {
     //Обрабатываем данные отправленые в корзину
 	public function receiveAction(Request $request)
