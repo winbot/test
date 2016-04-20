@@ -33,11 +33,11 @@
             <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
                 <th><h1>Цена, грн.</h1></th><th><h1>Удалить</h1></th></tr>
             {% for key, value in res_tabl %}
-                <tr><td><input height = "100" type="text" name="name{{ key }}" value="{{ res_tabl[key].Name() }}"></br>
+                <tr><td><input type="text" name="name{{ key }}" value="{{ res_tabl[key].Name() }}" pattern = "^[A-Za-zА-Яа-яЁё0-9 -]+$"></br>
                         {#<h3><input style="height: 30px; cols: 40; rows: 3"  type="text" name="composition{{ key }}" value="{{ res_tabl[key].Composition() }}"></h3></td>#}
-                        <h3><textarea  name="composition{{ key }}">{{ res_tabl[key].Composition() }}</textarea></h3></td>
-                    <td><h2><input class = "col2" type="text" name="portion{{ key }}" value="{{ res_tabl[key].Portion() }}"></h2></td>
-                    <td><h2><input class = "col3" type="text" name="cost{{ key }}" value="{{ res_tabl[key].Cost() }}"></h2></td>
+                        <h3><textarea  name="composition{{ key }}" pattern = "^[A-Za-zА-Яа-яЁё0-9 ]+$">{{ res_tabl[key].Composition() }}</textarea></h3></td>
+                    <td><h2><input class = "col2" type="text" name="portion{{ key }}" value="{{ res_tabl[key].Portion() }}" pattern = "^[0-9]+$"></h2></td>
+                    <td><h2><input class = "col3" type="text" name="cost{{ key }}" value="{{ res_tabl[key].Cost() }}" pattern = "^[0-9.]+$"></h2></td>
                 <td><h2><input color="#c1e3ac" type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
                 <input class = "col3" type="hidden" name="col" value={{ key }}>{#текущее количество записей в таблице#}
             {% endfor %}
@@ -49,7 +49,7 @@
         <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
         </br><input type="submit" name="preview" value = "Добавить блюдо"/></br>
     </form>
-    <form action="{{ path('add_item_menu') }}" method="post" >
+    <form action="{{ path('export') }}" method="post" >
         <input type="hidden" name="nametab" value={{ menu_name.nameTab() }}>
         </br><input type="submit" name="export" value = "Экспорт"/></br>
     </form>

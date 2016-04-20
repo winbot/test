@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-class MenuAdminPage
+class AdminPage
 {
 
     public static function CreateMenu($name_tab)
