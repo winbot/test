@@ -60,7 +60,7 @@ class SecurityPageController extends Controller
         $col_menu = count($res_menu);
 
         //Получаем первое меню из списка для первичной инициализации страницы
-        if($name_tab == '' || $name_tab == '1')$name_tab = $res_menu[0]->getNameTab();
+        if($name_tab == '' || $name_tab == 'first')$name_tab = $res_menu[0]->getNameTab();
 
         //Формируем массив с детальным описанием меню
         //************************************

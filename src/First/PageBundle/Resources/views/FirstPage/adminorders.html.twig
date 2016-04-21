@@ -1,0 +1,78 @@
+{# src/First/PageBundle/Resources/Resources/views/FirstPage/adminorders.html.twig #}
+{% extends '::base_detail.html.twig' %}
+
+{% block navigation %}
+    <nav>
+        <ul class="navigation">
+            <li><a href="{{path('first')}}">Главная</a></li>
+            <li><a href="{{path('readorders', {'order': "first"})}}">Заказы</a></li>
+            <li><a href="{{path('admin', { 'name_tab': 'first' })}}">Меню</a></li>
+            <li><a href="{{path('login')}}">Вход</a></li>
+            <li><a href="{{ logout_path('secured_area') }}">Выход</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block main_menu %}{#заполняем блок именами посетителей выполнивших заказ#}
+    {% if col_user == 0 %}
+        {{ 'На данный момент заказы отсутствуют!' }}</br>
+    {% else %}
+        {{ 'Список посетителей оформивших заказ!' }}</br></br>
+        {{ ' • ' }}
+        {% if col_user == 1 %}
+            <a href="{{path('readorders', { 'order': users[0].getOwnerOrder() })}}">{{ users[0].getOwnerOrder() }}</a>{{ ' • ' }}{#main_menu название маршрута из routing.yml#}
+        {% else %}
+            {% for key, value in users %}
+                <a href="{{path('readorders', { 'order': users[key].getOwnerOrder() })}}">{{ users[key].getOwnerOrder() }}</a>{{ ' • ' }}
+            {% endfor %}
+        {% endif %}
+
+    {% endif %}
+{% endblock %}
+
+{% block detail_menu %}
+    {% if col_user != 0 %}
+        <h5>{{ 'Заказ для: '}}{{ user_name }}</h5></br>
+    {% endif %}
+{% endblock %}
+
+{% block detail_order %}{#заполняем блок названиями блюд из текущего заказа#}
+    {% if col_user != 0 %}
+        {% set id_order = 0 %}
+        {% set user_name = '' %}
+        <form action="{{ path('exportorder') }}" method="post" >
+            {% set cost = 0.0 %}
+            <table>
+                <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
+                    <th><h1>Цена, грн.</h1></th></tr>
+                {% if col_item == 1 %}
+                    <tr><td>{{ order_menu.getNameDishes() }}</br></td>
+                        <td><h2>{{ order_menu.getPortion() }}</h2></td>
+                        <td><h2>{{ order_menu.getCost() }}</h2></td></tr></tr>
+                     <input type="hidden" name="col" value="1">{#количество записей в таблице#}
+                    <input type="hidden" name="confirm" value = {% set cost = order_menu[key].getCost() %}/>
+                {% else %}
+                    {% for key, value in order_menu %}
+                        <tr><td>{{ order_menu[key].getNameDishes() }}</br></td>
+                            <td><h2>{{ order_menu[key].getPortion() }}</h2></td>
+                            <td><h2>{{ order_menu[key].getCost() }}</h2></td></tr></tr>
+                        <input type="hidden" name="col" value={{ key }}>{#количество элементов в заказе#}
+                        <input type="hidden" name="id_order" value={{ order_menu[key].getIdOrder() }}>{#id заказа#}
+                        <input type="hidden" name="username" value={{ order_menu[key].getOwnerOrder() }}>{#имя пользователя#}
+                        <input type="hidden" name="allcost" value = {% set cost = cost + order_menu[key].getCost() %}/>
+                        {% set id_order = order_menu[key].getIdOrder() %}
+                        {% set user_name = order_menu[key].getOwnerOrder() %}
+                    {% endfor %}
+                {% endif %}
+            </table>
+            {#Стоимость всего заказа#}
+            </br><h5>Всего: {{ cost }} грн. </h5>
+            </br><input type="submit" name="exportorder" value = "Экспорт заказа"/></br>
+        </form>
+        <form action="{{ path('acceptorder') }}" method="post" >
+            <input type="hidden" name="id_order" value={{ id_order }}>{#id заказа#}
+            <input type="hidden" name="username" value={{ user_name }}>{#имя пользователя#}
+            </br><input type="submit" name="acceptorder" value = "Принять заказ"/></br>
+        </form>
+    {% endif %}
+{% endblock %}

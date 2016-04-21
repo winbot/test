@@ -56,6 +56,18 @@ add_item_menu:
     path:  /add_item_menu
     defaults: { _controller: FirstPageBundle:Admin:add_item_menu }
 
+readorders:
+    path:  /readorders/{order}
+    defaults: { _controller: FirstPageBundle:Admin:readorders }
+
+exportorder:
+    path:  /exportorder
+    defaults: { _controller: FirstPageBundle:Admin:exportorder }
+
+acceptorder:
+    path:  /acceptorder
+    defaults: { _controller: FirstPageBundle:Admin:acceptorder }
+
 default_page_homepage:
     path:     /
     defaults: { _controller: FirstPageBundle:FirstPage:index }

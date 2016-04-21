@@ -3,10 +3,9 @@
 namespace First\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use First\PageBundle\MyFunction\AdminPage;
+use First\PageBundle\Entity\all_order;
 
 
 class AdminController extends Controller
@@ -17,69 +16,8 @@ class AdminController extends Controller
         //Получаем из запроса имя таблицы
         $name_tab = $request->request->get('nametab');
 
-        //Формируем массив с детальным описанием меню
-        //************************************
-        $repo = 'FirstPageBundle:';
-        $repo .= $name_tab;
-        $res_tabl = $this->getDoctrine()->getRepository($repo)->findAll();
-        if (!$res_tabl)
-        {
-            throw $this->createNotFoundException('Not found table Repository');
-        }
-        $col_tabl = count($res_tabl);//количество элементов в меню
-        //************************************
-
-        //Получаем имя меню по имени таблицы
-        //************************************
-        $menu_name = $this->getDoctrine()->getRepository('FirstPageBundle:main_menu')->findOneBy(array ('nameTab' => $name_tab));
-        if (!$menu_name)
-        {
-            throw $this->createNotFoundException('No name menu found for '.$name_tab);
-        }
-        //************************************
-        // Экспорт данных в файл xls
-        $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
-
-        $phpExcelObject->getProperties()->setCreator("Admin")
-        ->setLastModifiedBy("Admin")
-        ->setTitle("Title Title")
-        ->setSubject("Office 2005 XLSX Subject Document")
-        ->setDescription("Export menu")
-        ->setKeywords("office 2005 openxml php")
-        ->setCategory("Export menu file");
-        $phpExcelObject->setActiveSheetIndex(0)
-            ->setCellValue('A1', "id")
-            ->setCellValue('B1', "Название")
-            ->setCellValue('C1', "Количество гр.")
-            ->setCellValue('D1', "Цена грн.")
-            ->setCellValue('E1', "Описание");
-
-        for($i=0; $i<$col_tabl; $i++) {
-            $cell = $i+2;
-            $phpExcelObject->setActiveSheetIndex(0)
-            ->setCellValue('A'. $cell, $res_tabl[$i]->getId())
-            ->setCellValue('B'. $cell, $res_tabl[$i]->getName())
-            ->setCellValue('C'. $cell, $res_tabl[$i]->getPortion())
-            ->setCellValue('D'. $cell, $res_tabl[$i]->getCost())
-            ->setCellValue('E'. $cell, $res_tabl[$i]->getComposition());
-        }
-        $phpExcelObject->getActiveSheet()->setTitle('Order');
-        // Устанавливаем индекс активной страницы
-        $phpExcelObject->setActiveSheetIndex(0);
-
-        // Создаём редактор
-        $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
-        // Создвём ответ
-        $response = $this->get('phpexcel')->createStreamedResponse($writer);
-        // Добавляем заголовок
-        $dispositionHeader = $response->headers->makeDisposition(
-        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $name_tab . '.xls'
-        );
-        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-        $response->headers->set('Pragma', 'public');
-        $response->headers->set('Cache-Control', 'maxage=1');
-        $response->headers->set('Content-Disposition', $dispositionHeader);
+        //Выполняем экспорт текущей таблицы
+        $response = AdminPage::exportMenu($name_tab);
 
         return $response;
     }
@@ -89,8 +27,10 @@ class AdminController extends Controller
     {
         //Получаем имя текущей таблицы
         $name_tab = $request->request->get('nametab');
+
         //Количество строк в таблице
         $col = $request->request->get('col');
+
         //Удаляем все записи в таблице
         $em = $this->getDoctrine()->getEntityManager();
         $connection = $em->getConnection();
@@ -155,6 +95,7 @@ class AdminController extends Controller
         $statement->bindValue(3, '');
         $statement->bindValue(4, '');
         $statement->execute();
+        
         //Выполняем функцию получения данных для формирования
         // страницы администратора
         $temp = AdminPage::CreateMenu($name_tab);
@@ -173,6 +114,83 @@ class AdminController extends Controller
             'col_tabl' => $col_tabl,
             'menu_name' => $menu_name,
         ));
+    }
 
+    public function readordersAction($order)
+    {
+        //Получаем список посетителей выполнивших заказ
+        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+        $query = $repository->createQueryBuilder('q')
+            ->where('q.accept = false')
+            ->groupBy('q.ownerOrder')
+            ->orderBy('q.ownerOrder', 'ASC')
+            ->getQuery();
+            $users = $query->getResult();
+        $col_user = count($users);//количество посетителей выполнивших заказ
+        $user_name = $order;
+        
+        //Первый вход на страницу adminorders.html.twig
+        //имя посетителя для просмотра заказа юудет первым из запроса 
+        if($order == "first"){
+            if($col_user != 0)$user_name = $users[0]->getOwnerOrder();
+        }
+        
+        //Формируем список заказаных посетителем блюд
+        $query = $repository->createQueryBuilder('q')
+            ->where('q.ownerOrder = \'' .$user_name. '\'')
+            ->andWhere('q.accept = false')
+            ->orderBy('q.id', 'ASC')
+            ->getQuery();
+        $order_menu = $query->getResult();
+        $col_item = count($order_menu);//количество блюд в заказе
+        
+        
+        return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
+            'col_item' => $col_item,
+            'order_menu' => $order_menu,
+            'col_user' => $col_user,
+            'user_name' => $user_name,
+            'users' => $users,
+        ));
+    }
+    public function exportorderAction(Request $request)
+    {
+        //Получаем из запроса имя пользователя
+        $user_name = $request->request->get('username');
+        //Получаем из запроса id заказа
+        $id_order = $request->request->get('id_order');
+        
+        //Получаем данные для экспорта
+        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+        $query = $repository->createQueryBuilder('q')
+            ->where('q.ownerOrder = \'' .$user_name. '\'')
+            ->andWhere('q.idOrder = \'' .$id_order. '\'')
+            ->getQuery();
+        $result = $query->getResult();
+
+        //Выполняем экспорт текущего заказа
+        $response = AdminPage::exportOrder($result);
+
+        return $response;        
+    }
+    public function acceptorderAction(Request $request)
+    {
+        //Получаем из запроса имя пользователя
+        $user_name = $request->request->get('username');
+        //Получаем из запроса id заказа
+        $id_order = $request->request->get('id_order');
+
+        //Подтверждаем обработку заказа
+        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+        $query = $repository->createQueryBuilder('q')
+            ->update()
+            ->set('q.accept',true)
+            ->where('q.ownerOrder = \'' .$user_name. '\'')
+            ->andWhere('q.idOrder = \'' .$id_order. '\'')
+             ->getQuery();
+        $result = $query->execute();
+
+        //Переходим на страницу заказа (для посетителей сайта)
+        return $this->redirect($this->generateUrl('readorders', array('order' => 'first')));
     }
 }
