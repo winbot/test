@@ -18,7 +18,6 @@ class CreateAccount
 		$user = new User;
 
     	//Проверяем существование пользователя с введеным именем
-        //$_username = $this->getDoctrine()->getRepository('FirstPageBundle:user')->findOneBy(array ('username' => $username));
         $_username = $em->getRepository('FirstPageBundle:user')->findOneBy(array ('username' => $username));
         if($_username ){
             $error = 1;
@@ -37,7 +36,7 @@ class CreateAccount
         //Задаем значение полей
 		$user->setUsername($username);
 		$user->setEmail($email);
-		$user->setisActive('1');
+		$user->setisActive('0');
 		$user->setRole('ROLE_USER');
 
 		// шифруем и устанавливаем пароль для пользователя,
@@ -47,7 +46,8 @@ class CreateAccount
 		$encoderFactory = $GLOBALS['kernel']->getContainer()->get('security.encoder_factory');
 		$encoder = $encoderFactory->getEncoder($user);
 
-		$salt = '0123456789012345678901'; // salt должно быть уникально для еаждого пользователя
+		//$salt = '0123456789012345678901'; // salt должно быть уникально для еаждого пользователя
+		$salt = md5(time());
 		$_password = $encoder->encodePassword($password, $salt);
 
 		$user->setSalt($salt);
