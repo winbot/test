@@ -57,7 +57,7 @@ add_item_menu:
     defaults: { _controller: FirstPageBundle:Admin:add_item_menu }
 
 readorders:
-    path:  /readorders/{order}
+    path:  /readorders/{order}/{orderstatus}/{idorder}
     defaults: { _controller: FirstPageBundle:Admin:readorders }
 
 exportorder:

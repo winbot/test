@@ -128,7 +128,7 @@ class SecurityPageController extends Controller
                 throw $this->createNotFoundException('Not found menu');
             }
              //************************************
-            //получаем количество экземпляров меню
+            //получаем количество групп меню
             $col_tabl = count($res_menu);
             //Получаем первое меню из списка для первичной инициализации страницы
             if($col_tabl > 1){

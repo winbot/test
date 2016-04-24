@@ -116,42 +116,95 @@ class AdminController extends Controller
         ));
     }
 
-    public function readordersAction($order)
+    public function readordersAction($order, $orderstatus, $idorder)
     {
-        //Получаем список посетителей выполнивших заказ
-        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
-        $query = $repository->createQueryBuilder('q')
-            ->where('q.accept = false')
-            ->groupBy('q.ownerOrder')
-            ->orderBy('q.ownerOrder', 'ASC')
-            ->getQuery();
+
+        if($orderstatus == 0 ) {//Показываем не обработаные заказы
+            //Получаем список посетителей выполнивших заказ
+            $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.accept = false')
+                ->groupBy('q.ownerOrder')
+                ->orderBy('q.ownerOrder', 'ASC')
+                ->getQuery();
             $users = $query->getResult();
-        $col_user = count($users);//количество посетителей выполнивших заказ
-        $user_name = $order;
-        
-        //Первый вход на страницу adminorders.html.twig
-        //имя посетителя для просмотра заказа юудет первым из запроса 
-        if($order == "first"){
-            if($col_user != 0)$user_name = $users[0]->getOwnerOrder();
+            $col_user = count($users);//количество посетителей выполнивших заказ
+            $user_name = $order;
+
+            //Первый вход на страницу adminorders.html.twig
+            //имя посетителя для просмотра заказа будет первым из запроса
+            if ($order == "first") {
+                if ($col_user != 0) $user_name = $users[0]->getOwnerOrder();
+            }
+
+            //Формируем список заказаных посетителем блюд
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.ownerOrder = \'' . $user_name . '\'')
+                ->andWhere('q.accept = false')
+                ->orderBy('q.id', 'ASC')
+                ->getQuery();
+            $order_menu = $query->getResult();
+            $col_item = count($order_menu);//количество блюд в заказе
+            $dt = null;//Дата и время заказа
+            if($col_item !=0)$dt = $order_menu[0]->getDateT();
+           
+            return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
+                        'dt' => $dt,
+                        'idorder' => $idorder,
+                        'orderstatus' => $orderstatus,
+                        'col_item' => $col_item,
+                        'order_menu' => $order_menu,
+                        'col_user' => $col_user,
+                        'user_name' => $user_name,
+                        'users' => $users,
+                   ));
+        }else{//Показываем обработаные заказы
+            //Получаем список посетителей чей заказ уже обработан
+            $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.accept = true')
+                ->groupBy('q.ownerOrder')
+                ->addGroupBy('q.idOrder')
+                ->orderBy('q.id', 'ASC')
+                ->getQuery();
+            $users = $query->getResult();
+            $col_user = count($users);//количество посетителей выполнивших заказ
+            $user_name = $order;
+           
+                
+            //Первый вход на страницу adminorders.html.twig
+            //имя посетителя для просмотра заказа будет первым из запроса
+            if ($order == "first") {
+                if ($col_user != 0){
+                    $user_name = $users[0]->getOwnerOrder();
+                    $idorder = $users[0]->getIdOrder();
+
+                }
+            }
+
+            //Формируем список заказаных посетителем блюд
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.ownerOrder = \'' . $user_name . '\'')
+                ->andWhere('q.accept = true')
+                ->andWhere('q.idOrder = ' . $idorder)
+                ->orderBy('q.id', 'ASC')
+                ->getQuery();
+            $order_menu = $query->getResult();
+            $col_item = count($order_menu);//количество блюд в заказе
+            $dt = null;//Дата и время заказа
+            if($col_item != 0)$dt = $order_menu[0]->getDateT();
+
+            return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
+                'dt' => $dt,
+                'idorder' => $idorder,
+                'orderstatus' => $orderstatus,
+                'col_item' => $col_item,
+                'order_menu' => $order_menu,
+                'col_user' => $col_user,
+                'user_name' => $user_name,
+                'users' => $users,
+            ));
         }
-        
-        //Формируем список заказаных посетителем блюд
-        $query = $repository->createQueryBuilder('q')
-            ->where('q.ownerOrder = \'' .$user_name. '\'')
-            ->andWhere('q.accept = false')
-            ->orderBy('q.id', 'ASC')
-            ->getQuery();
-        $order_menu = $query->getResult();
-        $col_item = count($order_menu);//количество блюд в заказе
-        
-        
-        return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
-            'col_item' => $col_item,
-            'order_menu' => $order_menu,
-            'col_user' => $col_user,
-            'user_name' => $user_name,
-            'users' => $users,
-        ));
     }
     public function exportorderAction(Request $request)
     {
@@ -175,6 +228,8 @@ class AdminController extends Controller
     }
     public function acceptorderAction(Request $request)
     {
+        //Получаем из запроса статус заказа
+        $order_status = $request->request->get('orderstatus');//Показываем не обработанные заказы если = 0
         //Получаем из запроса имя пользователя
         $user_name = $request->request->get('username');
         //Получаем из запроса id заказа
@@ -184,13 +239,13 @@ class AdminController extends Controller
         $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
         $query = $repository->createQueryBuilder('q')
             ->update()
-            ->set('q.accept',true)
-            ->where('q.ownerOrder = \'' .$user_name. '\'')
-            ->andWhere('q.idOrder = \'' .$id_order. '\'')
-             ->getQuery();
+            ->set('q.accept', true)
+            ->where('q.ownerOrder = \'' . $user_name . '\'')
+            ->andWhere('q.idOrder = \'' . $id_order . '\'')
+            ->getQuery();
         $result = $query->execute();
 
         //Переходим на страницу заказа (для посетителей сайта)
-        return $this->redirect($this->generateUrl('readorders', array('order' => 'first')));
-    }
+        return $this->redirect($this->generateUrl('readorders', array('order' => 'first', 'orderstatus' => 0, 'idorder' => 0)));
+      }
 }

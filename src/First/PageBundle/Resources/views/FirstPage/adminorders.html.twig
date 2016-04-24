@@ -5,7 +5,7 @@
     <nav>
         <ul class="navigation">
             <li><a href="{{path('first')}}">Главная</a></li>
-            <li><a href="{{path('readorders', {'order': "first"})}}">Заказы</a></li>
+            <li><a href="{{path('readorders', {'order': "first", 'orderstatus': 0, 'idorder': 0})}}">Заказы</a></li>
             <li><a href="{{path('admin', { 'name_tab': 'first' })}}">Меню</a></li>
             <li><a href="{{path('login')}}">Вход</a></li>
             <li><a href="{{ logout_path('secured_area') }}">Выход</a></li>
@@ -20,10 +20,10 @@
         {{ 'Список посетителей оформивших заказ!' }}</br></br>
         {{ ' • ' }}
         {% if col_user == 1 %}
-            <a href="{{path('readorders', { 'order': users[0].getOwnerOrder() })}}">{{ users[0].getOwnerOrder() }}</a>{{ ' • ' }}{#main_menu название маршрута из routing.yml#}
+            <a href="{{path('readorders', { 'order': users[0].getOwnerOrder(), 'orderstatus': orderstatus, 'idorder': users[0].getIdOrder() })}}">{{ users[0].getOwnerOrder() }} - {{ users[0].getDateT()|date("Y/m/d H:i:s") }}</a>{{ ' • ' }}{#main_menu название маршрута из routing.yml#}
         {% else %}
             {% for key, value in users %}
-                <a href="{{path('readorders', { 'order': users[key].getOwnerOrder() })}}">{{ users[key].getOwnerOrder() }}</a>{{ ' • ' }}
+                <a href="{{path('readorders', { 'order': users[key].getOwnerOrder(), 'orderstatus': orderstatus, 'idorder': users[key].getIdOrder() })}}">{{ users[key].getOwnerOrder() }} - {{ users[key].getDateT()|date("Y/m/d H:i:s") }}</a>{{ ' • ' }}
             {% endfor %}
         {% endif %}
 
@@ -32,7 +32,7 @@
 
 {% block detail_menu %}
     {% if col_user != 0 %}
-        <h5>{{ 'Заказ для: '}}{{ user_name }}</h5></br>
+        <h5>{{ 'Заказ для: '}}{{ user_name }} - {{ dt|date("Y/m/d H:i:s") }}</h5></br>
     {% endif %}
 {% endblock %}
 
@@ -46,11 +46,11 @@
                 <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
                     <th><h1>Цена, грн.</h1></th></tr>
                 {% if col_item == 1 %}
-                    <tr><td>{{ order_menu.getNameDishes() }}</br></td>
-                        <td><h2>{{ order_menu.getPortion() }}</h2></td>
-                        <td><h2>{{ order_menu.getCost() }}</h2></td></tr></tr>
+                    <tr><td>{{ order_menu[0].getNameDishes() }}</br></td>
+                        <td><h2>{{ order_menu[0].getPortion() }}</h2></td>
+                        <td><h2>{{ order_menu[0].getCost() }}</h2></td></tr></tr>
                      <input type="hidden" name="col" value="1">{#количество записей в таблице#}
-                    <input type="hidden" name="confirm" value = {% set cost = order_menu[key].getCost() %}/>
+                    <input type="hidden" name="confirm" value = {% set cost = order_menu[0].getCost() %}/>
                 {% else %}
                     {% for key, value in order_menu %}
                         <tr><td>{{ order_menu[key].getNameDishes() }}</br></td>
@@ -58,6 +58,7 @@
                             <td><h2>{{ order_menu[key].getCost() }}</h2></td></tr></tr>
                         <input type="hidden" name="col" value={{ key }}>{#количество элементов в заказе#}
                         <input type="hidden" name="id_order" value={{ order_menu[key].getIdOrder() }}>{#id заказа#}
+                        <input type="hidden" name="orderstatus" value={{ orderstatus }}>{#статус ордера (обработаный '1'  или нет '0')#}
                         <input type="hidden" name="username" value={{ order_menu[key].getOwnerOrder() }}>{#имя пользователя#}
                         <input type="hidden" name="allcost" value = {% set cost = cost + order_menu[key].getCost() %}/>
                         {% set id_order = order_menu[key].getIdOrder() %}
@@ -72,7 +73,18 @@
         <form action="{{ path('acceptorder') }}" method="post" >
             <input type="hidden" name="id_order" value={{ id_order }}>{#id заказа#}
             <input type="hidden" name="username" value={{ user_name }}>{#имя пользователя#}
+            <input type="hidden" name="orderstatus" value="0">{#показывать не обработаные заказы#}
+            {% if orderstatus != 1 %}{#Приём заказов активен только при наличии не обработаных заказов#}
             </br><input type="submit" name="acceptorder" value = "Принять заказ"/></br>
+            {% endif %}
         </form>
+    {% else %}
+    <a href="{{path('readorders', { 'order': "first", 'orderstatus': "1", 'idorder': "0" })}}">Показать обработаные заказы</a>
     {% endif %}
+{#
+    order_menu: {{ dump(order_menu) }}</br>
+    orderstatus: {{ dump(orderstatus) }}</br>
+    idorder: {{ dump(idorder) }}</br>
+    dt: {{ dump(dt) }}</br>
+#}
 {% endblock %}
