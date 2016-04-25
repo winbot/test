@@ -1,7 +1,7 @@
 <?php
 
 namespace First\PageBundle\MyFunction;
-use  First\PageBundle\Entity\main_menu;
+use First\PageBundle\Entity\main_menu;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +72,7 @@ class AdminPage
         {
             throw $gk->createNotFoundException('Not found table Repository');
         }
-        $col_tabl = count($res_tabl);//количество элементов в меню
+        $col_tabl = count($res_tabl);//количество групп меню
         //************************************
 
         //Получаем имя меню по имени таблицы
