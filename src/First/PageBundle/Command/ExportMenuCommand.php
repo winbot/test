@@ -15,23 +15,19 @@ class ExportMenuCommand extends ContainerAwareCommand
     {
         $this
             ->setName('export:menu')
-            ->setDescription('Export menu data to file.xls')
-            ->addArgument('path', InputArgument::REQUIRED, 'Enter path to file')
-            ->addOption('option', null, InputOption::VALUE_NONE, 'Option description');
+            ->setDescription('Export menu data to file.xls');
+/*            ->addArgument('path', InputArgument::REQUIRED, 'Enter path to file')
+            ->addOption('option', null, InputOption::VALUE_NONE, 'Option description');*/
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
-        $question = new Question('Please enter path to file', '/home/vagrant');
+        $question = new Question('Please enter path and name a file export: ', '/home/vagrant');
 
-        $path = $helper->ask($input, $output, $question);
-        //Обработка option
-        if ($input->getOption('option')) {
-            // ...
-        }
         //Путь к файлу экспорта
-        $path = $input->getArgument('path');
+        $path = $helper->ask($input, $output, $question);
+        
         //Получаем контейнер
         $gk = $this->getContainer();
         $em = $this->getContainer()->get('doctrine')->getManager();
@@ -90,17 +86,17 @@ class ExportMenuCommand extends ContainerAwareCommand
                         ->setCellValue('D'. $cell, $cur_tabl[$k]->getCost())
                         ->setCellValue('E'. $cell, $cur_tabl[$k]->getComposition());
             }
-            $phpExcelObject->getActiveSheet()->setTitle($name_tab);//'order'
+            $phpExcelObject->getActiveSheet()->setTitle($name_tab);
         }
         // Устанавливаем индекс активной страницы
        $phpExcelObject->setActiveSheetIndex(0);
 
         // Создаём редактор
         $writer = $gk->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+       
         // Сохраняем файл
-        $writer->save('/home/vagrant/file.xls');
+        $writer->save($path);
 
-        //$test = dump($em);
         $output->writeln($path);
     }
 
