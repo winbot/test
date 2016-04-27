@@ -10,12 +10,12 @@
    	<div>Проверьте учётные данные</div></br>
 {% endif %}
 
-<form action="{{ path('login_check') }}" method="post" >
+<form action="{{ path('login_check') }}" method="post" >   {#login_check#}
     <label for="Имя">Имя:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
     <label for="Пароль">Пароль:</label>
     <input type="password" id="password" name="_password" />
-    <input type="submit" name="login" value = "Войти" />
+    <input type="submit" id="login" name="login" value = "Войти" />
 </form>
 
 {% if adm %}
@@ -25,5 +25,13 @@
 
 {% endblock %}
 
-
+{% block javascripts %}
+    <form id="login" action="javascript:alert('hello');">
+        <input type="submit" id="press" name="press" value = "press" />
+        <button type="submit" id="press1">Submit <span ------- ></span></button>
+    {% javascripts 'js/app/jquery-1.12.3.min.js' %}
+            <script src="{{ asset('js/test.js') }}"></script>
+    {% endjavascripts %}
+    </form>
+{% endblock %}
 
