@@ -10,28 +10,34 @@
    	<div>Проверьте учётные данные</div></br>
 {% endif %}
 
-<form action="{{ path('login_check') }}" method="post" >   {#login_check#}
+{#<form action="{{ path('login_check') }}" method="post" >   #}{#login_check#}{#
     <label for="Имя">Имя:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
     <label for="Пароль">Пароль:</label>
     <input type="password" id="password" name="_password" />
     <input type="submit" id="login" name="login" value = "Войти" />
-</form>
+</form>#}
+    <form action="" method="post" >
+        <label for="Имя">Имя:</label>
+        <input type="text" id="_username" name="_username" value="{{ last_username }}" />
+        <label for="Пароль">Пароль:</label>
+        <input type="password" id="_password" name="_password" />
+        <input type="hidden" id="_path" name="_path" value="{{ path('login_check') }}" />
+        <input type="submit" id="login" name="login" value = "Войти" />
+    </form>
 
-{% if adm %}
-    {#</br><label for="Переход">Перейти на страницу администрирования </label>#}
+{#{% if adm %}
+    #}{#</br><label for="Переход">Перейти на страницу администрирования </label>#}{#
     </br></br><a href="{{path('admin', { 'name_tab':'first' })}}"><h3>Перейти на страницу администратора</h3></a>
-{% endif %}
+{% endif %}#}
 
 {% endblock %}
 
 {% block javascripts %}
-    <form id="login" action="javascript:alert('hello');">
-        <input type="submit" id="press" name="press" value = "press" />
-        <button type="submit" id="press1">Submit <span ------- ></span></button>
-    {% javascripts 'js/app/jquery-1.12.3.min.js' %}
-            <script src="{{ asset('js/test.js') }}"></script>
+    {% javascripts '@FirstPageBundle/Resources/Public/js/jquery-2.2.3.min.js'
+        '@FirstPageBundle/Resources/Public/js/login.js' %}
+        <script src="{{ asset_url }}" ></script>
     {% endjavascripts %}
-    </form>
 {% endblock %}
+
 
