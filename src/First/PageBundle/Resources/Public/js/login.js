@@ -1,21 +1,25 @@
 $(document).ready(function(){
-	alert('ready');
+	//alert('ready');
+	//Событие submit 
 	$("form").submit(function(){
-		var user=$("#_username").val();
+		//Получаем данные из формы
+		var name=$("#_username").val();
 		var word=$("#_password").val();
 		var path=$("#_path").val();
-		var text = "user: " + user + " password: " + word + " path: " + path;
-    alert(text);
-    });
+		var text = "user: " + name + " password: " + word + " path: " + path;
+		alert(text);
+		
+		$.ajax({
+			type: "POST",
+			url: path,
+			dataType: "json",
+			data:{username: name, password: word},
+			success: function(response){
+				$(".mess").text("Прибыли данные: " + response.message + " " + response.code + " " + response.success);
+				//alert( "Прибыли данные: " + response.message + " " + response.code + " " + response.success);
+			}
+		});
+	});
 
 });
 
-function newfunc(name) {
-	//
-	//$("#press1").hide();
-	/*var el = document.getElementById("press").id;
-	 var user = document.getElementById("user").id;*/
-
-	alert("5");
-	return false;
-}

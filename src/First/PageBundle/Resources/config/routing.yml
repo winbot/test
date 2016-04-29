@@ -68,6 +68,10 @@ acceptorder:
     path:  /acceptorder
     defaults: { _controller: FirstPageBundle:Admin:acceptorder }
 
+login_ajax:
+    path:  /login_ajax
+    defaults: { _controller: FirstPageBundle:SecurityAjax:login }
+
 default_page_homepage:
     path:     /
     defaults: { _controller: FirstPageBundle:FirstPage:index }

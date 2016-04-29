@@ -42,7 +42,8 @@
         {% set user_name = '' %}
         <form action="{{ path('exportorder') }}" method="post" >
             {% set cost = 0.0 %}
-            <table>
+            <div class="DTable">
+            <table class="MTable">
                 <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
                     <th><h1>Цена, грн.</h1></th></tr>
                 {% if col_item == 1 %}
@@ -66,6 +67,7 @@
                     {% endfor %}
                 {% endif %}
             </table>
+            </div>
             {#Стоимость всего заказа#}
             </br><h5>Всего: {{ cost }} грн. </h5>
             </br><input type="submit" name="exportorder" value = "Экспорт заказа"/></br>
@@ -78,13 +80,17 @@
             </br><input type="submit" name="acceptorder" value = "Принять заказ"/></br>
             {% endif %}
         </form>
+        </br><input type="submit" id="export" name="export" value = "Экспорт"/></br>
     {% else %}
     <a href="{{path('readorders', { 'order': "first", 'orderstatus': "1", 'idorder': "0" })}}">Показать обработаные заказы</a>
     {% endif %}
-{#
-    order_menu: {{ dump(order_menu) }}</br>
-    orderstatus: {{ dump(orderstatus) }}</br>
-    idorder: {{ dump(idorder) }}</br>
-    dt: {{ dump(dt) }}</br>
-#}
+
 {% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@FirstPageBundle/Resources/Public/js/jquery-2.2.3.min.js'
+    '@FirstPageBundle/Resources/Public/js/export.js' %}
+    <script src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+{% endblock %}
+

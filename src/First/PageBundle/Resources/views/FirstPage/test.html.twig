@@ -8,11 +8,11 @@
 {% block main_welcome %}
 {#	{{ dump(nametab) }}</br>
 	req: {{ dump(req) }}</br>
-    temp: {{ dump(temp) }}</br>#}
+    temp: {{ dump(temp) }}</br>
     order: {{ dump(order) }}</br>
-    orderstatus: {{ dump(orderstatus) }}</br>
-    users: {{ dump(users) }}</br>
-    <a href="{{path('readorders', { 'order': "first", 'orderstatus': "1" })}}">Показать обработаные заказы</a>{{ ' • ' }}{#main_menu название маршрута из routing.yml#}
+    orderstatus: {{ dump(orderstatus) }}</br>#}
+    request: {{ dump(request) }}</br>
+    {#<a href="{{path('readorders', { 'order': "first", 'orderstatus': "1" })}}">Показать обработаные заказы</a>{{ ' • ' }}#}{#main_menu название маршрута из routing.yml#}
 {% endblock %}
 
 

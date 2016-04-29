@@ -10,34 +10,19 @@
    	<div>Проверьте учётные данные</div></br>
 {% endif %}
 
-{#<form action="{{ path('login_check') }}" method="post" >   #}{#login_check#}{#
+<form action="{{ path('login_check') }}" method="post" >
     <label for="Имя">Имя:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
     <label for="Пароль">Пароль:</label>
     <input type="password" id="password" name="_password" />
     <input type="submit" id="login" name="login" value = "Войти" />
-</form>#}
-    <form action="" method="post" >
-        <label for="Имя">Имя:</label>
-        <input type="text" id="_username" name="_username" value="{{ last_username }}" />
-        <label for="Пароль">Пароль:</label>
-        <input type="password" id="_password" name="_password" />
-        <input type="hidden" id="_path" name="_path" value="{{ path('login_check') }}" />
-        <input type="submit" id="login" name="login" value = "Войти" />
-    </form>
+</form>
 
-{#{% if adm %}
-    #}{#</br><label for="Переход">Перейти на страницу администрирования </label>#}{#
+{% if adm %}
     </br></br><a href="{{path('admin', { 'name_tab':'first' })}}"><h3>Перейти на страницу администратора</h3></a>
-{% endif %}#}
-
+{% endif %}
+    <div class="mess"></div>
 {% endblock %}
 
-{% block javascripts %}
-    {% javascripts '@FirstPageBundle/Resources/Public/js/jquery-2.2.3.min.js'
-        '@FirstPageBundle/Resources/Public/js/login.js' %}
-        <script src="{{ asset_url }}" ></script>
-    {% endjavascripts %}
-{% endblock %}
 
 
