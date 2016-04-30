@@ -1,44 +1,26 @@
-$(document).ready(function(){
-    
-    $("#export").click(function (e) {
-        // window.open('data:application/vnd.ms-excel,' + $('#DTable').html());
-        fnExcelReport();
-        e.preventDefault();
-    });
-
-});
-
-function fnExcelReport()
-{
-    alert("func");
-    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
-    var textRange; var j=0;
-    tab = document.getElementById('.MTable'); // id of table
-
-    for(j = 0 ; j < tab.rows.length ; j++)
+function HtmltoExcel(namefile){
+    var data_type = 'data:application/vnd.ms-excel,\uFEFF';
+    var html = "<html xmlns='http://www.w3.org/1999/xhtml' lang='el-GR' lang='el-GR'>";
+    html += '<?php Response.AddHeader("Content-Disposition", "inline;filename=filename.xls") ?>';
+    html += "<meta http-equiv='content-type' content='text/plain; charset=UTF-8'/>";
+    html += "<table border='2px'><tr bgcolor='#87AFC6'>";
+    var i = 0;
+    var tab = document.getElementById("MTable"); // id таблицы
+    //Пересобираем таблицу
+    for(i = 0 ; i < tab.rows.length ; i++)
     {
-        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-        //tab_text=tab_text+"</tr>";
+        html=html+tab.rows[i].innerHTML+"</tr>";
     }
+    //Очищаем данные
+    html= html.replace(/<A[^>]*>|<\/A>/g, "");
+    html= html.replace(/<img[^>]*>/gi,"");
+    html= html.replace(/<input[^>]*>|<\/input>/gi, "");
+    html= html.replace(/<button[^>]*>|<\/button>/gi, "");
 
-    tab_text=tab_text+"</table>";
-    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE ");
-
-    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-    {
-        txtArea1.document.open("txt/html","replace");
-        txtArea1.document.write(tab_text);
-        txtArea1.document.close();
-        txtArea1.focus();
-        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
-    }
-    else                 //other browser not tested on IE 11
-        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-
-    return (sa);
+    //Находим элемент с id=shadow
+    document.getElementById("shadow").href = data_type + encodeURIComponent(html);
+    //Присваиваем имя файла
+    document.getElementById("shadow").download = namefile +'.xls';
+    //Выполняем click для элемента с id=shadow
+    document.getElementById("shadow").click();
 }

@@ -32,7 +32,7 @@
 
 {% block detail_menu %}
     {% if col_user != 0 %}
-        <h5>{{ 'Заказ для: '}}{{ user_name }} - {{ dt|date("Y/m/d H:i:s") }}</h5></br>
+        <p id="order"><h5>{{ 'Заказ для: '}}{{ user_name }} - {{ dt|date("Y/m/d H:i:s") }}</h5></p></br>
     {% endif %}
 {% endblock %}
 
@@ -40,10 +40,10 @@
     {% if col_user != 0 %}
         {% set id_order = 0 %}
         {% set user_name = '' %}
-        <form action="{{ path('exportorder') }}" method="post" >
+        <form action="javascript:fantom" method="post" >
             {% set cost = 0.0 %}
-            <div class="DTable">
-            <table class="MTable">
+            <div id="DTable">
+            <table id="MTable">
                 <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
                     <th><h1>Цена, грн.</h1></th></tr>
                 {% if col_item == 1 %}
@@ -54,7 +54,7 @@
                     <input type="hidden" name="confirm" value = {% set cost = order_menu[0].getCost() %}/>
                 {% else %}
                     {% for key, value in order_menu %}
-                        <tr><td>{{ order_menu[key].getNameDishes() }}</br></td>
+                        <tr><td>{{ order_menu[key].getNameDishes() }}</td>
                             <td><h2>{{ order_menu[key].getPortion() }}</h2></td>
                             <td><h2>{{ order_menu[key].getCost() }}</h2></td></tr></tr>
                         <input type="hidden" name="col" value={{ key }}>{#количество элементов в заказе#}
@@ -65,12 +65,11 @@
                         {% set id_order = order_menu[key].getIdOrder() %}
                         {% set user_name = order_menu[key].getOwnerOrder() %}
                     {% endfor %}
+                    {#Стоимость всего заказа#}
+                    <tr><td></td><td></td><td><h5>Всего: {{ cost }}грн.</h5></td></tr></tr>
                 {% endif %}
             </table>
             </div>
-            {#Стоимость всего заказа#}
-            </br><h5>Всего: {{ cost }} грн. </h5>
-            </br><input type="submit" name="exportorder" value = "Экспорт заказа"/></br>
         </form>
         <form action="{{ path('acceptorder') }}" method="post" >
             <input type="hidden" name="id_order" value={{ id_order }}>{#id заказа#}
@@ -80,7 +79,9 @@
             </br><input type="submit" name="acceptorder" value = "Принять заказ"/></br>
             {% endif %}
         </form>
-        </br><input type="submit" id="export" name="export" value = "Экспорт"/></br>
+        {#Объект 'a' предназначен для изменения имени экспортируемого файла#}
+        <a id="shadow"  style="display:none;"></a>
+        </br><input type="button" id="export" name="export" value = "Экспорт заказа" onclick="javascript:HtmltoExcel('{{ user_name }}-{{ dt|date("Y/m/d H:i:s") }}')"/></br>
     {% else %}
     <a href="{{path('readorders', { 'order': "first", 'orderstatus': "1", 'idorder': "0" })}}">Показать обработаные заказы</a>
     {% endif %}
