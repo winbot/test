@@ -1,0 +1,64 @@
+First\PageBundle\Entity\all_order:
+    type: entity
+    table: all_order
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        idOrder:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: id_order
+        dateT:
+            type: datetime
+            nullable: false
+            column: date_t
+        portion:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+        idDishes:
+            type: integer
+            nullable: false
+            unsigned: false
+            column: id_dishes
+        nameDishes:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: name_dishes
+        cost:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 2
+        nameTab:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: name_tab
+        ownerOrder:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: owner_order
+        groupOrder:
+            type: string
+            nullable: false
+            length: 255
+            fixed: false
+            column: group_order
+        accept:
+            type: boolean
+            nullable: false
+    lifecycleCallbacks: {  }
