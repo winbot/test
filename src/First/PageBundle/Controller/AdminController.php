@@ -31,8 +31,12 @@ class AdminController extends Controller
         //Количество строк в таблице
         $col = $request->request->get('col');
 
+        return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
+            'request' => $request,
+        ));
+
         //Удаляем все записи в таблице
-        $em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getEntityManager();
         $connection = $em->getConnection();
         $query = "DELETE FROM " .$name_tab. " WHERE id<>0";
         $statement = $connection->prepare($query);
@@ -76,7 +80,7 @@ class AdminController extends Controller
             'res_tabl' => $res_tabl,
             'col_tabl' => $col_tabl,
             'menu_name' => $menu_name,
-        ));
+        ));*/
     }
 
     //добавляем элемент в таблицу выбраного меню

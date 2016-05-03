@@ -11,11 +11,13 @@ function HtmltoExcel(namefile){
     {
         html=html+tab.rows[i].innerHTML+"</tr>";
     }
-    //Очищаем данные
+    //Очищаем таблицу от лишних элементов
     html= html.replace(/<A[^>]*>|<\/A>/g, "");
     html= html.replace(/<img[^>]*>/gi,"");
     html= html.replace(/<input[^>]*>|<\/input>/gi, "");
     html= html.replace(/<button[^>]*>|<\/button>/gi, "");
+    html= html.replace(/<h2>/gi, "");
+    html= html.replace(/<\/h2>/gi, "");
 
     //Находим элемент с id=shadow
     document.getElementById("shadow").href = data_type + encodeURIComponent(html);

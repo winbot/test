@@ -15,7 +15,7 @@ $(document).ready(function(){
 			dataType: "json",
 			data:{username: name, password: word},
 			success: function(response){
-				$(".mess").text("Прибыли данные: " + response.message + " " + response.code + " " + response.success);
+				$(".mess").text("Получен ответ: " + response.message + " " + response.code + " " + response.success);
 				//alert( "Прибыли данные: " + response.message + " " + response.code + " " + response.success);
 			}
 		});
