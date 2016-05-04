@@ -25,18 +25,21 @@ class AdminController extends Controller
     //Вносим изменения в таблицу выбраного меню
     public function update_menuAction(Request $request)
     {
-        //Получаем имя текущей таблицы
+        //проверяем тип запроса если не XmlHttp то возвращаем код 400 и сообщение
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
+        }
+        //Получаем данные из запроса
+        $name = $request->request->get('name');
+        $composition = $request->request->get('composition');
+        $portion = $request->request->get('portion');
+        $cost = $request->request->get('cost');
         $name_tab = $request->request->get('nametab');
-
-        //Количество строк в таблице
-        $col = $request->request->get('col');
-
-        return $this->render('FirstPageBundle:FirstPage:test.html.twig', array(
-            'request' => $request,
-        ));
+        $t = $name[0];// + " " + $composition[0] + " " + $portion[0] + " " + $cost[0];
+        $col = count($name);//количество элементов в массиве
 
         //Удаляем все записи в таблице
-        /*$em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
         $connection = $em->getConnection();
         $query = "DELETE FROM " .$name_tab. " WHERE id<>0";
         $statement = $connection->prepare($query);
@@ -46,42 +49,33 @@ class AdminController extends Controller
         $query = "ALTER TABLE " .$name_tab. " AUTO_INCREMENT=1";
         $statement = $connection->prepare($query);
         $statement->execute();
+        $success = true;
         //Записываем изменённые данные в таблицу
-        for ($i = 0; $i <=$col; $i++) {
-            $id = $request->request->get('id' . $i);
-            if(!$id) {//Если позиция в меню не была отмечена для удаления, то заносим её в таблицу
-                $query = "INSERT INTO " . $name_tab . "(name, portion, cost, composition) VALUES (?,?,?,?)";
-                $statement = $connection->prepare($query);
-                $name = $request->request->get('name' . $i);
-                $portion = $request->request->get('portion' . $i);
-                $cost = (float)$request->request->get('cost' . $i);
-                $composition = $request->request->get('composition' . $i);
-                $statement->bindValue(1, $name);
-                $statement->bindValue(2, $portion);
-                $statement->bindValue(3, $cost);
-                $statement->bindValue(4, $composition);
-                $statement->execute();
-            }
+        for ($i = 0; $i <$col; $i++) {
+            $query = "INSERT INTO " . $name_tab . "(name, portion, cost, composition) VALUES (?,?,?,?)";
+            $statement = $connection->prepare($query);
+            $statement->bindValue(1, $name[$i]);
+            $statement->bindValue(2, $portion[$i]);
+            $statement->bindValue(3, $cost[$i]);
+            $statement->bindValue(4, $composition[$i]);
+            $success = $statement->execute();
         }
 
-        //Выполняем функцию получения данных для формирования
-        // страницы администратора
-        $temp = AdminPage::CreateMenu($name_tab);
-        //Извлекаем из полученного массива данные
-        $res_menu = $temp[0];//Группы меню
-        $res_tabl = $temp[1];//Состав текущего меню
-        $menu_name = $temp[2];//Имя текущего меню
-        $col_menu = count($res_menu);//получаем количество групп меню
-        $col_tabl = count($res_tabl);//количество элементов в меню
-        //Переходим на страницу администратора
-        return $this->render('FirstPageBundle:FirstPage:admin.html.twig', array(
-            'res_menu' => $res_menu,
-            'col_menu' => $col_menu,
-            'res_tabl' => $res_tabl,
-            'col_tabl' => $col_tabl,
-            'menu_name' => $menu_name,
-        ));*/
-    }
+
+        
+        //Отправляем положительный ответ о выполненых изменениях
+        if($success){
+            $message = "Изменения успешно прменены!";
+            $response = array("code" => 100, "success" => true, "message" => $message, "info" => $t);
+            return new Response(json_encode($response));
+        }else{
+            $message = "Изменения не сохранены, повторите попытку!";
+            $response = array("code" => 400, "success" => false, "message" => $message, "info" => $t);
+            return new Response(json_encode($response));
+        }
+            
+        
+    }    
 
     //добавляем элемент в таблицу выбраного меню
     public function add_item_menuAction(Request $request)

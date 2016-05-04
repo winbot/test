@@ -6,6 +6,7 @@ $(document).ready(function(){
         //Получаем количество строк в таблице
         var tab = document.getElementById("MTable");
         var rows = $("#MTable tr").length;
+        //Формируем строку
         var row_content = '<tr id = "tr"' + rows + '><td><input type="text" id = "name' + rows + '" name="name' + rows;
         row_content += '" value="" pattern = "^[A-Za-zА-Яа-яЁё0-9 -]+$"></br><h3><textarea  id = "composition'+rows;
         row_content += '" name="composition' + rows + '" pattern = "^[A-Za-zА-Яа-яЁё0-9 ]+$"></textarea></h3></td>';
@@ -14,7 +15,7 @@ $(document).ready(function(){
         row_content += rows + '" name="cost{{ key }}" value="0.00" pattern = "^[0-9.]+$"></h2>';
         row_content += '</td><td><h2><input type="checkbox" name="id' + rows + '" value=' + rows + '></h2></td></tr></tr>';
         console.info(row_content);
-
+        //Вставляем строку в конец таблицы
         $(row_content).insertAfter($('#MTable tbody>tr:last'));
     });
 
@@ -72,6 +73,8 @@ $(document).ready(function(){
                 if(response.success){
                     alert( response.message);
                     console.info("Прибыли данные: " + response.message + " " + response.code + " " + response.success + " " + response.info);
+                }else{
+                    alert( response.message);
                 }
             }
         });

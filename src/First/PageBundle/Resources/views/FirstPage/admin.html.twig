@@ -42,8 +42,8 @@
             {% endfor %}
         </table>
             <input type="hidden" id = "_nametab" name="nametab" value={{ menu_name.nameTab() }}>
-            <input type="hidden" id="_path" name="_path" value="{{ url('login_ajax') }}" />
-            </br><input type="submit" name="update_menu" value = "Применить"/></br>
+            <input type="hidden" id="_path" name="_path" value="{{ url('update_menu') }}" />
+            </br><input type="submit" name="update_menu" value = "Применить изменения"/></br>
     </form>
     </br><input type = "button" id = "add" name = "add_item" value = "Добавить блюдо" /></br>
     <a id="shadow"  style="display:none;"></a>
