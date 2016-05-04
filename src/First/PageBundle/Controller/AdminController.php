@@ -3,6 +3,7 @@
 namespace First\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use First\PageBundle\MyFunction\AdminPage;
 use First\PageBundle\Entity\all_order;
@@ -61,8 +62,6 @@ class AdminController extends Controller
             $success = $statement->execute();
         }
 
-
-        
         //Отправляем положительный ответ о выполненых изменениях
         if($success){
             $message = "Изменения успешно прменены!";
