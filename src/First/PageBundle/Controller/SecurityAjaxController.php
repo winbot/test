@@ -15,15 +15,16 @@ class SecurityAjaxController extends Controller
             return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
         }
         //Получаем имя пользователя и пароль из запроса
-        $username = $request->request->get('name');
-        $password = $request->request->get('password');
-        //$tarray = json_decode($username, true);
-        $t = $username[0];
+        $name = $request->request->get('name');
+        $composition = $request->request->get('composition');
+        $portion = $request->request->get('portion');
+        $cost = $request->request->get('cost');
+        $nametab = $request->request->get('nametab');
+        $t = $name[0];// + " " + $composition[0] + " " + $portion[0] + " " + $cost[0];
 
+        $message = "Изменения успешно прменены!";
         //Отправляем положительный ответ о входе в систему
-        $response = array("code" => 100, "success" => true, "message" => $password, "info" => $t);
-
+        $response = array("code" => 100, "success" => true, "message" => $message, "info" => $t);
         return new Response(json_encode($response));
-
     }
 }
