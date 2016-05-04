@@ -2,7 +2,20 @@ $(document).ready(function(){
 
     $("#add").click(function(){
         //Клонируем последнюю строку и добавляем в конец таблицы
-        $('#MTable tbody>tr:last').clone(true).insertAfter('#MTable tbody>tr:last');
+        //$('#MTable tbody>tr:last').clone(true).insertAfter('#MTable tbody>tr:last');
+        //Получаем количество строк в таблице
+        var tab = document.getElementById("MTable");
+        var rows = $("#MTable tr").length;
+        var row_content = '<tr id = "tr"' + rows + '><td><input type="text" id = "name' + rows + '" name="name' + rows;
+        row_content += '" value="" pattern = "^[A-Za-zА-Яа-яЁё0-9 -]+$"></br><h3><textarea  id = "composition'+rows;
+        row_content += '" name="composition' + rows + '" pattern = "^[A-Za-zА-Яа-яЁё0-9 ]+$"></textarea></h3></td>';
+        row_content += '<td><h2><input class = "col2" type="text" id = "portion'+rows+'" name="portion'+rows;
+        row_content += '" value="" pattern = "^[0-9]+$"></h2></td><td><h2><input class = "col3" type="text" id = "cost';
+        row_content += rows + '" name="cost{{ key }}" value="0.00" pattern = "^[0-9.]+$"></h2>';
+        row_content += '</td><td><h2><input type="checkbox" name="id' + rows + '" value=' + rows + '></h2></td></tr></tr>';
+        console.info(row_content);
+
+        $(row_content).insertAfter($('#MTable tbody>tr:last'));
     });
 
     $('#myform').on('change', 'input[type=checkbox]', function(e) {
