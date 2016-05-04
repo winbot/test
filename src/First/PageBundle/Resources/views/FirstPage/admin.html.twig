@@ -39,7 +39,6 @@
                     <td><h2><input class = "col2" type="text" id = "portion{{ key }}" name="portion{{ key }}" value="{{ res_tabl[key].Portion() }}" pattern = "^[0-9]+$"></h2></td>
                     <td><h2><input class = "col3" type="text" id = "cost{{ key }}" name="cost{{ key }}" value="{{ res_tabl[key].Cost() }}" pattern = "^[0-9.]+$"></h2></td>
                 <td><h2><input type="checkbox" name="id{{ key }}" value={{ res_tabl[key].id() }}></h2></td></tr></tr>
-                {#<input id = "col" type="hidden" name="col" value={{ key }}>#}{#текущее количество записей в таблице#}
             {% endfor %}
         </table>
             <input type="hidden" id = "_nametab" name="nametab" value={{ menu_name.nameTab() }}>

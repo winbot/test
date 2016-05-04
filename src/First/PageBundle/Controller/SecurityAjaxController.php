@@ -10,11 +10,11 @@ class SecurityAjaxController extends Controller
 {
     public function loginAction(Request $request)
     {
-        //проверяем тип запроса если не XmlHttp то возвращаем код 400 и message
+        //проверяем тип запроса если не XmlHttp то возвращаем код 400 и сообщение
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
         }
-        //Получаем имя пользователя и пароль из запроса
+        //Получаем данные из запроса
         $name = $request->request->get('name');
         $composition = $request->request->get('composition');
         $portion = $request->request->get('portion');
