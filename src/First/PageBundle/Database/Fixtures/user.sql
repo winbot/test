@@ -1,0 +1,38 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
+--
+-- Хост: localhost
+-- Время создания: Май 04 2016 г., 18:23
+-- Версия сервера: 5.5.47-0ubuntu0.14.04.1-log
+-- Версия PHP: 5.5.9-1ubuntu4.14
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- База данных: `restaurant`
+--
+
+--
+-- Дамп данных таблицы `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `salt`, `email`, `role`, `is_active`) VALUES
+(11, 'admin', '$2y$13$012345678901234567890ueCUyyLlncbjwtr3CGNBETPFqxyPJHeO', '0123456789012345678901', 'user@edu.com', 'ROLE_ADMIN', 1),
+(14, 'root', '$2y$13$012345678901234567890uJJz6tppEZcF578lgGwHMv8H1jJbp7w2', '0123456789012345678901', 'wqert@edu.com', 'ROLE_USER', 1),
+(19, 'user1', '$2y$13$012345678901234567890uF0RGdNJLW8.rhWUh.30HD2l3pwubDqO', '0123456789012345678901', 'user1@edu.com', 'ROLE_USER', 1),
+(20, 'user2', '$2y$13$012345678901234567890up81up/LB2vr0XbX3.U1B6YnpD5OBxBO', '0123456789012345678901', 'user2@edu.com', 'ROLE_USER', 1),
+(21, 'user3', '$2y$13$012345678901234567890unhXT7aEhte1I84WXnDlLjGW9ZnwtXPC', '0123456789012345678901', 'user3@edu.com', 'ROLE_USER', 1),
+(22, 'user4', '$2y$13$012345678901234567890uaworqnKVoG7lNiHFzPjJ1lISpRMK38a', '0123456789012345678901', 'user4@edu.com', 'ROLE_USER', 1),
+(23, 'user5', '$2y$13$5357a86a332a4e48828bauWeuv76vgooSiugyUtgGTAe9cMN13w32', '5357a86a332a4e48828ba66292599988', 'user5@edu.com', 'ROLE_USER', 0);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
