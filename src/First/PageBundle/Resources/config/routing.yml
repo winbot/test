@@ -41,7 +41,7 @@ update_confirm_order:
     defaults: { _controller: FirstPageBundle:Order:update_confirm }
 
 admin:
-    path:  /admin/{name_tab}
+    path:  /admin/main/{name_tab}
     defaults: { _controller: FirstPageBundle:SecurityPage:admin }
 
 export:
