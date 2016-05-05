@@ -64,11 +64,11 @@ class AdminController extends Controller
         //Отправляем положительный ответ о выполненых изменениях
         if($success){
             $message = "Изменения успешно прменены!";
-            $response = array("code" => 100, "success" => true, "message" => $message, "info" => $t);
+            $response = array("code" => 100, "success" => true, "message" => $message);
             return new Response(json_encode($response));
         }else{
             $message = "Изменения не сохранены, повторите попытку!";
-            $response = array("code" => 400, "success" => false, "message" => $message, "info" => $t);
+            $response = array("code" => 400, "success" => false, "message" => $message);
             return new Response(json_encode($response));
         }
     }
