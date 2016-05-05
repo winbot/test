@@ -52,10 +52,6 @@ update_menu:
     path:  /update_menu
     defaults: { _controller: FirstPageBundle:Admin:update_menu }
 
-add_item_menu:
-    path:  /add_item_menu
-    defaults: { _controller: FirstPageBundle:Admin:add_item_menu }
-
 readorders:
     path:  /readorders/{order}/{orderstatus}/{idorder}
     defaults: { _controller: FirstPageBundle:Admin:readorders }

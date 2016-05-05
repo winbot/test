@@ -72,45 +72,6 @@ class AdminController extends Controller
             $response = array("code" => 400, "success" => false, "message" => $message, "info" => $t);
             return new Response(json_encode($response));
         }
-            
-        
-    }    
-
-    //добавляем элемент в таблицу выбраного меню
-    public function add_item_menuAction(Request $request)
-    {
-        //Получаем имя текущей таблицы
-        $name_tab = $request->request->get('nametab');
-
-        //Добавляем пустую строку в текущую таблицу
-        $em = $this->getDoctrine()->getEntityManager();
-        $connection = $em->getConnection();
-        $query = "INSERT INTO " .$name_tab. "(name, portion, cost, composition) VALUES (?,?,?,?)";
-        $statement = $connection->prepare($query);
-        $statement->bindValue(1, '');
-        $statement->bindValue(2, '');
-        $statement->bindValue(3, '');
-        $statement->bindValue(4, '');
-        $statement->execute();
-        
-        //Выполняем функцию получения данных для формирования
-        // страницы администратора
-        $temp = AdminPage::CreateMenu($name_tab);
-
-        //Извлекаем из полученного массива данные
-        $res_menu = $temp[0];//Группы меню
-        $res_tabl = $temp[1];//Состав текущего меню
-        $menu_name = $temp[2];//Имя текущего меню
-        $col_menu = count($res_menu);//получаем количество групп меню
-        $col_tabl = count($res_tabl);//количество элементов в меню
-        //Переходим на страницу администратора
-        return $this->render('FirstPageBundle:FirstPage:admin.html.twig', array(
-            'res_menu' => $res_menu,
-            'col_menu' => $col_menu,
-            'res_tabl' => $res_tabl,
-            'col_tabl' => $col_tabl,
-            'menu_name' => $menu_name,
-        ));
     }
 
     public function readordersAction($order, $orderstatus, $idorder)
