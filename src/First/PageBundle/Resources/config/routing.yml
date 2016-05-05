@@ -16,10 +16,6 @@ login_check:
 logout:
     path:  /logout
 
-admin:
-    path:  /admin/{name_tab}
-    defaults: { _controller: FirstPageBundle:SecurityPage:admin }
-
 account:
     path:  /account
     defaults: { _controller: FirstPageBundle:SecurityPage:account }
@@ -44,24 +40,28 @@ update_confirm_order:
     path:  /update_confirm_order
     defaults: { _controller: FirstPageBundle:Order:update_confirm }
 
+admin:
+    path:  /admin/{name_tab}
+    defaults: { _controller: FirstPageBundle:SecurityPage:admin }
+
 export:
-    path:  /export
+    path:  /admin/export
     defaults: { _controller: FirstPageBundle:Admin:export }
 
 update_menu:
-    path:  /update_menu
+    path:  /admin/update_menu
     defaults: { _controller: FirstPageBundle:Admin:update_menu }
 
 readorders:
-    path:  /readorders/{order}/{orderstatus}/{idorder}
+    path:  /admin/readorders/{order}/{orderstatus}/{idorder}
     defaults: { _controller: FirstPageBundle:Admin:readorders }
 
 exportorder:
-    path:  /exportorder
+    path:  /admin/exportorder
     defaults: { _controller: FirstPageBundle:Admin:exportorder }
 
 acceptorder:
-    path:  /acceptorder
+    path:  /admin/acceptorder
     defaults: { _controller: FirstPageBundle:Admin:acceptorder }
 
 default_page_homepage:

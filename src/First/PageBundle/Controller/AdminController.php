@@ -36,7 +36,6 @@ class AdminController extends Controller
         $portion = $request->request->get('portion');
         $cost = $request->request->get('cost');
         $name_tab = $request->request->get('nametab');
-        $t = $name[0];// + " " + $composition[0] + " " + $portion[0] + " " + $cost[0];
         $col = count($name);//количество элементов в массиве
 
         //Удаляем все записи в таблице
