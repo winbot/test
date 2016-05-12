@@ -53,7 +53,7 @@ update_menu:
     defaults: { _controller: FirstPageBundle:Admin:update_menu }
 
 readorders:
-    path:  /admin/readorders/{order}/{orderstatus}/{idorder}
+    path:  /admin/readorders
     defaults: { _controller: FirstPageBundle:Admin:readorders }
 
 readordersAjax:

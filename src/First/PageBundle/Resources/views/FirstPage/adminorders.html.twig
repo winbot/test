@@ -5,7 +5,7 @@
     <nav>
         <ul class="navigation">
             <li><a href="{{path('first')}}">Главная</a></li>
-            <li><a href="{{path('readorders', {'order': "first", 'orderstatus': 0, 'idorder': 0})}}">Заказы</a></li>
+            <li><a href="{{path('readorders')}}">Заказы</a></li>
             <li><a href="{{path('admin', { 'name_tab': 'first' })}}">Меню</a></li>
             <li><a href="{{path('login')}}">Вход</a></li>
             <li><a href="{{ logout_path('secured_area') }}">Выход</a></li>
@@ -13,84 +13,24 @@
     </nav>
 {% endblock %}
 
-{% block main_menu %}{#заполняем блок именами посетителей выполнивших заказ#}
-    <div id="main_menu">
-    {% if col_user == 0 %}
-        {{ 'На данный момент заказы отсутствуют!' }}</br>
-    {% else %}
-        {{ 'Список посетителей оформивших заказ!' }}</br></br>
-        {{ ' • ' }}
-        {% if col_user == 1 %}
-            <a href="{{path('readorders', { 'order': users[0].getOwnerOrder(), 'orderstatus': orderstatus, 'idorder': users[0].getIdOrder() })}}">{{ users[0].getOwnerOrder() }} - {{ users[0].getDateT()|date("Y/m/d H:i:s") }}</a>{{ ' • ' }}{#main_menu название маршрута из routing.yml#}
-        {% else %}
-            {% for key, value in users %}
-                <a href="{{path('readorders', { 'order': users[key].getOwnerOrder(), 'orderstatus': orderstatus, 'idorder': users[key].getIdOrder() })}}">{{ users[key].getOwnerOrder() }} - {{ users[key].getDateT()|date("Y/m/d H:i:s") }}</a>{{ ' • ' }}
-            {% endfor %}
-        {% endif %}
-    {% endif %}
-    </div>
+{% block main_menu %}
+    <div id="user"></div>{#заполняем блок именами посетителей из обработаных заказов#}
+    {#checkbox для выбора обработанных заказов#}
+    </br><input type="checkbox" id="acc_order" name="acc_order" ><label for="acc_order">Просмотр обработанных заказов</label>
+    {#checkbox для запуска таймера проверки новых заказов#}
     </br><input type="checkbox" id="wake_order" name="wake_order" ><label for="wake_order">Проверка поступления новых заказов</label>
 {% endblock %}
 
 {% block detail_menu %}
-    <div id="order_d">
-    {% if col_user != 0 %}
-        <p id="order"><h5>{{ 'Заказ для: '}}{{ user_name }} - {{ dt|date("Y/m/d H:i:s") }}</h5></p></br>
-    {% endif %}
-    </div>
     <div id="new_order"></div>
 {% endblock %}
 
 {% block detail_order %}{#заполняем блок названиями блюд из текущего заказа#}
-    <div id="detail">
-        <input type="hidden" id="path" name="path" value="{{ url('readordersAjax') }}" />
-        {% if col_user != 0 %}
-            {% set id_order = 0 %}
-            {% set user_name = '' %}
-            <form action="javascript:fantom" method="post" >
-                {% set cost = 0.0 %}
-                 <table id="MTable">
-                    <tr><th><h1>Название</h1></th><th><h1>Кол-во, гр.</h1></th>
-                        <th><h1>Цена, грн.</h1></th></tr>
-                    {% if col_item == 1 %}
-                        <tr><td>{{ order_menu[0].getNameDishes() }}</br></td>
-                            <td><h2>{{ order_menu[0].getPortion() }}</h2></td>
-                            <td><h2>{{ order_menu[0].getCost() }}</h2></td></tr></tr>
-                         <input type="hidden" name="col" value="1">{#количество записей в таблице#}
-                        <input type="hidden" name="confirm" value = {% set cost = order_menu[0].getCost() %}/>
-                    {% else %}
-                        {% for key, value in order_menu %}
-                            <tr><td>{{ order_menu[key].getNameDishes() }}</td>
-                                <td><h2>{{ order_menu[key].getPortion() }}</h2></td>
-                                <td><h2>{{ order_menu[key].getCost() }}</h2></td></tr>
-                            <input type="hidden" name="col" value={{ key }}>{#количество элементов в заказе#}
-                            <input type="hidden" name="id_order" value={{ order_menu[key].getIdOrder() }}>{#id заказа#}
-                            <input type="hidden" name="orderstatus" value={{ orderstatus }}>{#статус ордера (обработаный '1'  или нет '0')#}
-                            <input type="hidden" name="username" value={{ order_menu[key].getOwnerOrder() }}>{#имя пользователя#}
-                            <input type="hidden" name="allcost" value = {% set cost = cost + order_menu[key].getCost() %}/>
-                            {% set id_order = order_menu[key].getIdOrder() %}
-                            {% set user_name = order_menu[key].getOwnerOrder() %}
-                        {% endfor %}
-                        {#Стоимость всего заказа#}
-                        <tr><td></td><td></td><td><h5>Всего: {{ cost }}грн.</h5></td></tr></tr>
-                    {% endif %}
-                </table>
-            </form>
-            <form action="{{ path('acceptorder') }}" method="post" >
-                <input type="hidden" name="id_order" value={{ id_order }}>{#id заказа#}
-                <input type="hidden" name="username" value={{ user_name }}>{#имя пользователя#}
-                <input type="hidden" name="orderstatus" value="0">{#показывать не обработаные заказы#}
-                {% if orderstatus != 1 %}{#Приём заказов активен только при наличии не обработаных заказов#}
-                </br><input type="submit" name="acceptorder" value = "Принять заказ"/></br>
-                {% endif %}
-            </form>
-        </div>
+    <div id="detail"></div>
         {#Объект 'a' предназначен для изменения имени экспортируемого файла#}
-        <a id="shadow"  style="display:none;"></a>
-        </br><input type="button" id="export" name="export" value = "Экспорт заказа" onclick="javascript:HtmltoExcel('{{ user_name }}-{{ dt|date("Y/m/d H:i:s") }}')"/></br>
-    {% else %}
-    <a class="ref" href="{{path('readorders', { 'order': "first", 'orderstatus': "1", 'idorder': "0" })}}">Показать обработаные заказы</a>
-    {% endif %}
+    <a id="shadow"  style="display:none;"></a>
+    </br><input type="button" id="export" name="export" value = "Экспорт заказа" onclick="javascript:HtmltoExcel('user_name - datetime')"/></br>
+    <input type="hidden" id="path" name="path" value="{{ url('readordersAjax') }}" />
 {% endblock %}
 
 {% block javascripts %}

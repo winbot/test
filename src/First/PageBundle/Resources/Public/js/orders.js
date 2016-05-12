@@ -4,13 +4,23 @@ $(document).ready(function(){
     var flag_request = true; //Разрешение отправлять запросы
     var id_order = 0; //Текущий номер ордера
 
+    //Проверяем checkbox id=acc_order, если установлен
+    //отправляем запрос на вывод обработаных заказов
+    $("#acc_order").click (function(){
+        if($("#acc_order").prop('checked')){
+            console.info('checked');
+            $("#wake_order").prop('checked',false);
+        }
+    });
+
     //Устанавливаем таймер на 5 сек
     setInterval(function()
     {
         //Получаем путь для запроса
         var path = $("#path").val();
 
-        //Проверяем checkbox, выполняем если установлен
+        //Проверяем checkbox id=wake_order, если установлен и flag_request=true
+        //отправляем запрос на наличие необработаных заказов
         if($("#wake_order").prop('checked') && flag_request) {
             
             //Запрещаем отправку запросов пока не обработаем полученный ответ
@@ -20,7 +30,7 @@ $(document).ready(function(){
                 type: "POST",
                 url: path,
                 dataType: "json",
-                data:{name: 'order'},
+                data:{status: 0},
                 success: function(response){
                     if(response.success){//Есть не обработанные заказы
 
@@ -72,10 +82,8 @@ $(document).ready(function(){
                             //Изменяем текущий номер заказа
                             id_order = response.id_order;
 
+                            
                             //Показываем имя пользователя, номер заказа и дату заказа
-                            $('#order_d').empty();
-                            $('#order_d').hide();
-
                             $("#new_order").append("<p><h5>Заказ №" + id_order + " для: " + username + " - " + dt + "<h5>");
 
                         }
@@ -86,10 +94,11 @@ $(document).ready(function(){
                         //Проверяем существование таблицы
                         //если существует, удаляем
                         if($("table").is("#MTable") == true)$("#MTable").empty();
-                        
-                        //Показываем ссылку 'Показать обработаные заказы'
-                        $('.ref').show();
-                        
+
+                        //Скрываем имя , дату и номер заказа
+                        $('#new_order').empty();
+                        $('#new_order').hide();
+
                         //Разрешаем отправлять запросы
                         flag_request = true;
                     }

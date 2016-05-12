@@ -80,68 +80,10 @@ class AdminController extends Controller
        if (!$request->isXmlHttpRequest()) {
            return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
        }
-        $name = $request->request->get('name');
-
-        //Производим поиск в таблице all_order всех не подтверждённых заказов
-        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
-        $query = $repository->createQueryBuilder('q')
-            ->where('q.accept = false')
-            ->groupBy('q.ownerOrder')
-            ->orderBy('q.ownerOrder', 'ASC')
-            ->getQuery();
-        $users = $query->getResult();
-        $col_user = count($users);//количество посетителей выполнивших заказ
-
-        if($col_user != 0){
-            $user_name = $users[0]->getOwnerOrder();
-            //Формируем список заказаных посетителем блюд
-            $query = $repository->createQueryBuilder('q')
-                ->where('q.ownerOrder = \'' . $user_name . '\'')
-                ->andWhere('q.accept = false')
-                ->orderBy('q.id', 'ASC')
-                ->getQuery();
-            $order_menu = $query->getResult();
-            $col_item = count($order_menu);//количество блюд в заказе
-            $dt = null;//Дата и время заказа
-            $id_order = null;//Номер ордера заказа
-            $username = null;//Хозяин заказа
-            if($col_item !=0){
-                $dt = $order_menu[0]->getDateT();
-                $id_order = $order_menu[0]->getIdOrder();
-                $username =  $order_menu[0]->getOwnerOrder();
-            }
-            
-            $name = [];
-            $portion = [];
-            $cost = [];
-            //Преобразуем дату в строку
-            $dt = date_format($dt,"Y/m/d H:i:s");
-
-            
-            //Формируем массивы данных
-            for($i = 0; $i < $col_item; $i++){
-                $name[$i] =  $order_menu[$i]->getNameDishes();
-                $portion[$i] =  $order_menu[$i]->getPortion();
-                $cost[$i] =  $order_menu[$i]->getCost();
-            }
-                        
-            $response = array("success" => true, "dt" => $dt, "col_item" => $col_item,
-                "name_dishes" => $name, "portion" => $portion, "cost" => $cost,
-                "id_order" => $id_order, "username" => $username);
-            return new Response(json_encode($response));
-        }else{
-            $response = array("success" => false);
-            return new Response(json_encode($response));
-        }
-
-        
-    }
-
-    public function readordersAction($order, $orderstatus, $idorder)
-    {
-
-        if($orderstatus == 0 ) {//Показываем не обработаные заказы
-            //Получаем список посетителей выполнивших заказ
+        $status = $request->request->get('status');
+        //Если status = 0 значит запрос на наличие не обработаных заказов
+        if($status == 0) {
+            //Производим поиск в таблице all_order всех не подтверждённых заказов
             $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
             $query = $repository->createQueryBuilder('q')
                 ->where('q.accept = false')
@@ -150,82 +92,61 @@ class AdminController extends Controller
                 ->getQuery();
             $users = $query->getResult();
             $col_user = count($users);//количество посетителей выполнивших заказ
-            $user_name = $order;
 
-            //Первый вход на страницу adminorders.html.twig
-            //имя посетителя для просмотра заказа будет первым из запроса
-            if ($order == "first") {
-                if ($col_user != 0) $user_name = $users[0]->getOwnerOrder();
-            }
-
-            //Формируем список заказаных посетителем блюд
-            $query = $repository->createQueryBuilder('q')
-                ->where('q.ownerOrder = \'' . $user_name . '\'')
-                ->andWhere('q.accept = false')
-                ->orderBy('q.id', 'ASC')
-                ->getQuery();
-            $order_menu = $query->getResult();
-            $col_item = count($order_menu);//количество блюд в заказе
-            $dt = null;//Дата и время заказа
-            if($col_item !=0)$dt = $order_menu[0]->getDateT();
-           
-            return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
-                        'dt' => $dt,
-                        'idorder' => $idorder,
-                        'orderstatus' => $orderstatus,
-                        'col_item' => $col_item,
-                        'order_menu' => $order_menu,
-                        'col_user' => $col_user,
-                        'user_name' => $user_name,
-                        'users' => $users,
-                   ));
-        }else{//Показываем обработаные заказы
-            //Получаем список посетителей чей заказ уже обработан
-            $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
-            $query = $repository->createQueryBuilder('q')
-                ->where('q.accept = true')
-                ->groupBy('q.ownerOrder')
-                ->addGroupBy('q.idOrder')
-                ->orderBy('q.id', 'ASC')
-                ->getQuery();
-            $users = $query->getResult();
-            $col_user = count($users);//количество посетителей выполнивших заказ
-            $user_name = $order;
-           
-                
-            //Первый вход на страницу adminorders.html.twig
-            //имя посетителя для просмотра заказа будет первым из запроса
-            if ($order == "first") {
-                if ($col_user != 0){
-                    $user_name = $users[0]->getOwnerOrder();
-                    $idorder = $users[0]->getIdOrder();
-
+            if ($col_user != 0) {
+                $user_name = $users[0]->getOwnerOrder();
+                //Формируем список заказаных посетителем блюд
+                $query = $repository->createQueryBuilder('q')
+                    ->where('q.ownerOrder = \'' . $user_name . '\'')
+                    ->andWhere('q.accept = false')
+                    ->orderBy('q.id', 'ASC')
+                    ->getQuery();
+                $order_menu = $query->getResult();
+                $col_item = count($order_menu);//количество блюд в заказе
+                $dt = null;//Дата и время заказа
+                $id_order = null;//Номер ордера заказа
+                $username = null;//Хозяин заказа
+                if ($col_item != 0) {
+                    $dt = $order_menu[0]->getDateT();
+                    $id_order = $order_menu[0]->getIdOrder();
+                    $username = $order_menu[0]->getOwnerOrder();
                 }
+
+                $name = [];
+                $portion = [];
+                $cost = [];
+                //Преобразуем дату в строку
+                $dt = date_format($dt, "Y/m/d H:i:s");
+
+
+                //Формируем массивы данных
+                for ($i = 0; $i < $col_item; $i++) {
+                    $name[$i] = $order_menu[$i]->getNameDishes();
+                    $portion[$i] = $order_menu[$i]->getPortion();
+                    $cost[$i] = $order_menu[$i]->getCost();
+                }
+
+                $response = array("success" => true, "dt" => $dt, "col_item" => $col_item,
+                    "name_dishes" => $name, "portion" => $portion, "cost" => $cost,
+                    "id_order" => $id_order, "username" => $username);
+                return new Response(json_encode($response));
+            } else {
+                $response = array("success" => false);
+                return new Response(json_encode($response));
             }
-
-            //Формируем список заказаных посетителем блюд
-            $query = $repository->createQueryBuilder('q')
-                ->where('q.ownerOrder = \'' . $user_name . '\'')
-                ->andWhere('q.accept = true')
-                ->andWhere('q.idOrder = ' . $idorder)
-                ->orderBy('q.id', 'ASC')
-                ->getQuery();
-            $order_menu = $query->getResult();
-            $col_item = count($order_menu);//количество блюд в заказе
-            $dt = null;//Дата и время заказа
-            if($col_item != 0)$dt = $order_menu[0]->getDateT();
-
-            return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig', array(
-                'dt' => $dt,
-                'idorder' => $idorder,
-                'orderstatus' => $orderstatus,
-                'col_item' => $col_item,
-                'order_menu' => $order_menu,
-                'col_user' => $col_user,
-                'user_name' => $user_name,
-                'users' => $users,
-            ));
         }
+
+        //Если status = 1 значит запрос на просмотр обработаных заказов
+        if($status == 1) {
+
+        }
+
+        
+    }
+
+    public function readordersAction(Request $request)
+    {
+        return $this->render('FirstPageBundle:FirstPage:adminorders.html.twig');
     }
     public function exportorderAction(Request $request)
     {
