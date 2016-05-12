@@ -80,7 +80,8 @@ class AdminController extends Controller
        if (!$request->isXmlHttpRequest()) {
            return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
        }
-        $status = $request->request->get('status');
+        $req = $request->request->get('req');
+        $status = $req[0];
         //Если status = 0 значит запрос на наличие не обработаных заказов
         if($status == 0) {
             //Производим поиск в таблице all_order всех не подтверждённых заказов
@@ -138,6 +139,40 @@ class AdminController extends Controller
 
         //Если status = 1 значит запрос на просмотр обработаных заказов
         if($status == 1) {
+            //Показываем обработаные заказы
+            //Получаем список посетителей чей заказ уже обработан
+            $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.accept = true')
+                ->groupBy('q.ownerOrder')
+                ->addGroupBy('q.idOrder')
+                ->orderBy('q.ownerOrder', 'ASC')
+                ->getQuery();
+            $users = $query->getResult();
+            $col_user = count($users);//количество посетителей выполнивших заказ
+            
+            //Инициализируем переменные
+            $dt = [];//Дата и время заказа
+            $id_order = [];//Номер ордера заказа
+            $username = [];//Хозяин заказа
+            //Заполняем массисвы данными           
+            if($col_user != 0){
+                
+                for($i = 0; $i < $col_user; $i++) {
+                    $dtn = $users[$i]->getDateT();
+                    //Преобразуем дату в строку
+                    $dt[$i] = date_format($dtn, "Y/m/d H:i:s");
+                    $id_order[$i] = $users[$i]->getIdOrder();
+                    $username[$i] = $users[$i]->getOwnerOrder();
+                }
+                $response = array("success" => true, "dt" => $dt, "col_item" => $col_user,
+                    "username" => $username, "id_order" => $id_order );
+                return new Response(json_encode($response));
+                
+            }else{
+                $response = array("success" => false);
+                return new Response(json_encode($response));
+            }
 
         }
 

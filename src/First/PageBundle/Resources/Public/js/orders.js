@@ -7,9 +7,45 @@ $(document).ready(function(){
     //Проверяем checkbox id=acc_order, если установлен
     //отправляем запрос на вывод обработаных заказов
     $("#acc_order").click (function(){
-        if($("#acc_order").prop('checked')){
-            console.info('checked');
-            $("#wake_order").prop('checked',false);
+        if($("#acc_order").prop('checked')) {
+            //Выключаем таймер ожиданияинеобработаных заказов
+            $("#wake_order").prop('checked', false);
+            var flag_request = false; //Запрещаем отправлять запросы
+            //Получаем путь для запроса
+            var path = $("#path").val();
+            var req = [1,0,0,0];//1 элемент status, 2 элемент id_order, 3 элемент owner_order, 4 элемент дата и время заказа
+            $.ajax({
+                type: "POST",
+                url: path,
+                dataType: "json",
+                data: {req: req},
+                success: function (response) {
+                    if (response.success) {//Есть обработанные заказы
+
+                        //Получаем данные из ответа
+                        var dt = response.dt;//Дата и время заказа
+                        var id_order = response.id_order;//id заказа
+                        var username = response.username;//Имя хозяина заказа
+                        var col_item = response.col_item;//Количество заказов
+                        var content = ' • ';
+                        var i = 0;
+
+                        //Формируем ссылки на заказы
+                        for(i = 0; i < col_item; i++){
+                            content += username[i] + ' ' + id_order[i] + '-' + dt[i] + ' • ';
+                        }
+
+                        //Скрываем имя, дату и номер заказа
+                        $('#user').empty();
+                        //$('#user').hide();
+
+                        //Вносим новые данные
+                        $("#user").append(content);
+
+                    } else {
+                    }
+                }
+            });
         }
     });
 
@@ -22,15 +58,19 @@ $(document).ready(function(){
         //Проверяем checkbox id=wake_order, если установлен и flag_request=true
         //отправляем запрос на наличие необработаных заказов
         if($("#wake_order").prop('checked') && flag_request) {
-            
+
+            //Выключаем запрос обработаных заказов
+            $("#acc_order").prop('checked', false);
+
             //Запрещаем отправку запросов пока не обработаем полученный ответ
             flag_request = false;
             //Формируем запрос на наличие не обработаных заказов
+            var req = [0,0,0,0];//1 элемент status, 2 элемент id_order, 3 элемент owner_order, 4 элемент дата и время заказа
             $.ajax({
                 type: "POST",
                 url: path,
                 dataType: "json",
-                data:{status: 0},
+                data:{req: req},
                 success: function(response){
                     if(response.success){//Есть не обработанные заказы
 

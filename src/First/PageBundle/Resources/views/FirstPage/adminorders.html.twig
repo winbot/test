@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block main_menu %}
+    <input type="hidden" id="path" name="path" value="{{ url('readordersAjax') }}" />
     <div id="user"></div>{#заполняем блок именами посетителей из обработаных заказов#}
     {#checkbox для выбора обработанных заказов#}
     </br><input type="checkbox" id="acc_order" name="acc_order" ><label for="acc_order">Просмотр обработанных заказов</label>
