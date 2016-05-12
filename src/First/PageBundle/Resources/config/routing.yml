@@ -56,6 +56,10 @@ readorders:
     path:  /admin/readorders/{order}/{orderstatus}/{idorder}
     defaults: { _controller: FirstPageBundle:Admin:readorders }
 
+readordersAjax:
+    path:  /admin/readordersAjax
+    defaults: { _controller: FirstPageBundle:Admin:readordersAjax }
+
 exportorder:
     path:  /admin/exportorder
     defaults: { _controller: FirstPageBundle:Admin:exportorder }

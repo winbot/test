@@ -3,6 +3,7 @@
 namespace First\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use First\PageBundle\MyFunction\AdminPage;
@@ -71,6 +72,69 @@ class AdminController extends Controller
             $response = array("code" => 400, "success" => false, "message" => $message);
             return new Response(json_encode($response));
         }
+    }
+
+    public function readordersAjaxAction(Request $request)
+    {
+        //проверяем тип запроса если не XmlHttp то возвращаем код 400 и сообщение
+       if (!$request->isXmlHttpRequest()) {
+           return new JsonResponse(array('message' => 'Доступ разрешён только для запросов Ajax'), 400);
+       }
+        $name = $request->request->get('name');
+
+        //Производим поиск в таблице all_order всех не подтверждённых заказов
+        $repository = $this->getDoctrine()->getRepository('FirstPageBundle:all_order');
+        $query = $repository->createQueryBuilder('q')
+            ->where('q.accept = false')
+            ->groupBy('q.ownerOrder')
+            ->orderBy('q.ownerOrder', 'ASC')
+            ->getQuery();
+        $users = $query->getResult();
+        $col_user = count($users);//количество посетителей выполнивших заказ
+
+        if($col_user != 0){
+            $user_name = $users[0]->getOwnerOrder();
+            //Формируем список заказаных посетителем блюд
+            $query = $repository->createQueryBuilder('q')
+                ->where('q.ownerOrder = \'' . $user_name . '\'')
+                ->andWhere('q.accept = false')
+                ->orderBy('q.id', 'ASC')
+                ->getQuery();
+            $order_menu = $query->getResult();
+            $col_item = count($order_menu);//количество блюд в заказе
+            $dt = null;//Дата и время заказа
+            $id_order = null;//Номер ордера заказа
+            $username = null;//Хозяин заказа
+            if($col_item !=0){
+                $dt = $order_menu[0]->getDateT();
+                $id_order = $order_menu[0]->getIdOrder();
+                $username =  $order_menu[0]->getOwnerOrder();
+            }
+            
+            $name = [];
+            $portion = [];
+            $cost = [];
+            //Преобразуем дату в строку
+            $dt = date_format($dt,"Y/m/d H:i:s");
+
+            
+            //Формируем массивы данных
+            for($i = 0; $i < $col_item; $i++){
+                $name[$i] =  $order_menu[$i]->getNameDishes();
+                $portion[$i] =  $order_menu[$i]->getPortion();
+                $cost[$i] =  $order_menu[$i]->getCost();
+            }
+                        
+            $response = array("success" => true, "dt" => $dt, "col_item" => $col_item,
+                "name_dishes" => $name, "portion" => $portion, "cost" => $cost,
+                "id_order" => $id_order, "username" => $username);
+            return new Response(json_encode($response));
+        }else{
+            $response = array("success" => false);
+            return new Response(json_encode($response));
+        }
+
+        
     }
 
     public function readordersAction($order, $orderstatus, $idorder)

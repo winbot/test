@@ -30,7 +30,7 @@ $(document).ready(function(){
         //Получаем данные из формы
         var path = $("#_path").val();
         var nametab = $("#_nametab").val();
-
+        console.info(path);
         //Получаем количество строк в таблице
         var tab = document.getElementById("MTable");
         var rows = $("#MTable tr").length;
