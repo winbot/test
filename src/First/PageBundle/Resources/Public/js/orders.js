@@ -4,6 +4,15 @@ $(document).ready(function(){
     var flag_request = true; //Разрешение отправлять запросы
     var id_order = 0; //Текущий номер ордера
 
+    //Обрабатываем нажатие на ссылку с именем пользователя
+    //через событие click на div id=user
+    $('#user').click(function(event) {
+
+        event.preventDefault();
+        var h = event.target.text;
+        console.info(h);
+     });
+
     //Проверяем checkbox id=acc_order, если установлен
     //отправляем запрос на вывод обработаных заказов
     $("#acc_order").click (function(){
@@ -32,17 +41,21 @@ $(document).ready(function(){
 
                         //Формируем ссылки на заказы
                         for(i = 0; i < col_item; i++){
-                            content += username[i] + ' ' + id_order[i] + '-' + dt[i] + ' • ';
+                            content +='<a class="link" href="#">' + username[i] + ' ' + id_order[i] + '-' + dt[i] + '</a> • ';
                         }
 
                         //Скрываем имя, дату и номер заказа
                         $('#user').empty();
-                        //$('#user').hide();
 
                         //Вносим новые данные
                         $("#user").append(content);
 
+                        //Снимаем отметку с acc_order
+                        $("#acc_order").prop('checked', false);
+
                     } else {
+                        //Снимаем отметку с acc_order
+                        $("#acc_order").prop('checked', false);
                     }
                 }
             });
@@ -147,3 +160,4 @@ $(document).ready(function(){
         }
     }, 5000);//Таймер 5 сек
 });
+
