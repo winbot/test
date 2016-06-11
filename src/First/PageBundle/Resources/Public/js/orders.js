@@ -17,8 +17,10 @@ $(document).ready(function(){
     //отправляем запрос на вывод обработаных заказов
     $("#acc_order").click (function(){
         if($("#acc_order").prop('checked')) {
-            //Выключаем таймер ожиданияинеобработаных заказов
+            //Выключаем таймер ожидания необработаных заказов
             $("#wake_order").prop('checked', false);
+            //Показываем wake.gif ожидание ответа на запрос
+            startAjaxAnimation();
             var flag_request = false; //Запрещаем отправлять запросы
             //Получаем путь для запроса
             var path = $("#path").val();
@@ -30,7 +32,8 @@ $(document).ready(function(){
                 data: {req: req},
                 success: function (response) {
                     if (response.success) {//Есть обработанные заказы
-
+                        //Останавливаем показ wake.gif
+                        stopAjaxAnimation();
                         //Получаем данные из ответа
                         var dt = response.dt;//Дата и время заказа
                         var id_order = response.id_order;//id заказа
@@ -72,6 +75,9 @@ $(document).ready(function(){
         //отправляем запрос на наличие необработаных заказов
         if($("#wake_order").prop('checked') && flag_request) {
 
+            //Показываем wake.gif ожидание ответа на запрос
+            startAjaxAnimation();
+
             //Выключаем запрос обработаных заказов
             $("#acc_order").prop('checked', false);
 
@@ -86,7 +92,8 @@ $(document).ready(function(){
                 data:{req: req},
                 success: function(response){
                     if(response.success){//Есть не обработанные заказы
-
+                        //Останавливаем показ wake.gif
+                        stopAjaxAnimation();
                         //Получаем данные из ответа
                         var dt = response.dt;//Дата и время заказа
                         var col_item = response.col_item;//Количество элементов в заказе
@@ -144,6 +151,8 @@ $(document).ready(function(){
                         flag_request = true;
 
                      }else{
+                        //Останавливаем показ wake.gif
+                        stopAjaxAnimation();
                         //Проверяем существование таблицы
                         //если существует, удаляем
                         if($("table").is("#MTable") == true)$("#MTable").empty();
@@ -161,3 +170,20 @@ $(document).ready(function(){
     }, 5000);//Таймер 5 сек
 });
 
+function startAjaxAnimation(){
+    // найдем элемент с изображением загрузки и уберем невидимость:
+    var imgObj = $("#loadImg");
+    imgObj.show();
+
+    // вычислим в какие координаты нужно поместить изображение загрузки,
+    // чтобы оно оказалось в серидине страницы:
+    var centerY = $(window).scrollTop() + ($(window).height() + imgObj.height())/2-100;
+    var centerX = $(window).scrollLeft() + ($(window).width() + imgObj.width())/2-100;
+
+    // поменяем координаты изображения на нужные:
+    imgObj.offset({top: centerY, left: centerX});
+}
+
+function stopAjaxAnimation(){
+    $("#loadImg").hide();
+}
